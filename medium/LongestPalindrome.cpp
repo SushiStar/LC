@@ -18,12 +18,13 @@ public:
             if ((m + 1) != s.end() && *m == *(m + 1)) {
                 auto f = m + 1;  // forward
                 auto b = m;      // backward
-                int templength=0;
+                int templength = 0;
 
                 for (; b >= s.begin() && f != s.end(); b--, f++) {
                     if (*b == *f) {
                         templength += 2;
-                    } else {
+                    }
+                    else {
                         break;
                     }
                 }
@@ -38,7 +39,7 @@ public:
                 int templength = 1;
                 for (; b >= s.begin() && f != s.end(); b--, f++) {
                     if (*b == *f) {
-                        templength +=2;
+                        templength += 2;
                     }
                     else {
                         break;
@@ -50,6 +51,6 @@ public:
                 }
             }
         }
-        return s.substr(it-s.begin(), length);
+        return s.substr(it - s.begin(), length);
     }
 }
