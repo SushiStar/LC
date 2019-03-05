@@ -27,9 +27,10 @@ public:
                 if (nums.at(l) + nums.at(r) == goal) {
                     vector<int> temp{nums.at(i), nums.at(l), nums.at(r)};
                     res.push_back(temp);
-                    //--r; ++l;
+                    
                     while (l < r && temp.at(2) == nums.at(r)) --r;
                     while (l < r && temp.at(1) == nums.at(l)) ++l;
+
                 } else if (nums.at(l) + nums.at(r) > goal) {
                     --r;
                 } else {  // nums.at(l) + nums.at(r) < goal
