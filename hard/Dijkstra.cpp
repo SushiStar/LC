@@ -9,6 +9,11 @@
  *
  */
 
+#include <cstdlib>
+#include <list>
+#include <queue>
+#include <functional>
+
 using namespace std;
 
 typedef pair<int,int> ipair; 
@@ -45,10 +50,10 @@ void Graph::addEdge(int u, int v, int w) {
 // print shortest path from src to all vertices
 void Graph::shortestPath(int s) {
     priority_queue<ipair, vector<ipair>, greater<ipair>> pq;
-    vector<int> dist(V,INF);
+    vector<int> dist(V,INT_MAX);
     
-    pq.push(make_pair(0,src));
-    dist[src] = 0;
+    pq.push(make_pair(0,s));
+    dist[s] = 0;
 
     while(!pq.empty()){
         int u = pq.top().second;
@@ -58,8 +63,8 @@ void Graph::shortestPath(int s) {
             int v = (*i).first;
             int w = (*i).second;
 
-            if (dist[v] > dist[u] + weight) {
-                dist[v] = dist[u] + weight;
+            if (dist[v] > dist[u] + w) {
+                dist[v] = dist[u] + w;
                 pq.push(make_pair(dist[v], v));
             }
         }
