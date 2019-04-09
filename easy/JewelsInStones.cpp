@@ -15,4 +15,4 @@ public:
         for (auto j : J) res += map[j];
         return res;
     }
-}
+};
