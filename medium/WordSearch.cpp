@@ -30,35 +30,38 @@ public:
         int row = board.size();
         int column = board[0].size();
 
-        std::vector<vector<int>> visited(row, std::vector<int>(column,1));
+        std::vector<vector<int>> visited(row, std::vector<int>(column, 1));
         for (int i = 0; i < board.size(); ++i) {
             for (int j = 0; j < board[0].size(); ++j) {
                 if (board[i][j] == word[0]) {  // do dfs
-                    if (reached(Node(i,j,0), board, visited, word)) return true;
+                    if (reached(Node(i, j, 0), board, visited, word))
+                        return true;
                 }
             }
         }
         return false;
     }
 
-    bool reached (Node crt, std::vector<vector<char>>& board, std::vector<vector<int>>& visited, const string& word) {
-        if (crt.x < board.size() && crt.x >=0 && crt.y >=0 && crt.y < board[0].size()) {
+    bool reached(Node crt, std::vector<vector<char>>& board,
+                 std::vector<vector<int>>& visited, const string& word) {
+        if (crt.x < board.size() && crt.x >= 0 && crt.y >= 0 &&
+            crt.y < board[0].size()) {
             if (!visited[crt.x][crt.y]) return false;
             if (board[crt.x][crt.y] == word[crt.id]) {  // right node
                 visited[crt.x][crt.y] = 0;
-                if (crt.id == word.size()-1) return true;
-                
-                //has to continue
-                if (reached(Node(x-1,y,id+1), board, visited, word)) {
+                if (crt.id == word.size() - 1) return true;
+
+                // has to continue
+                if (reached(Node(x - 1, y, id + 1), board, visited, word)) {
                     return true;
                 }
-                if (reached(Node(x+1,y,id+1), board, visited, word)) {
+                if (reached(Node(x + 1, y, id + 1), board, visited, word)) {
                     return true;
                 }
-                if (reached(Node(x,y-1,id+1), board, visited, word)) {
+                if (reached(Node(x, y - 1, id + 1), board, visited, word)) {
                     return true;
                 }
-                if (reached(Node(x,y+1,id+1), board, visited, word)) {
+                if (reached(Node(x, y + 1, id + 1), board, visited, word)) {
                     return true;
                 }
                 // unvisit node
