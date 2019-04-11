@@ -74,7 +74,7 @@ public:
         for (int i = 1; i <= wordDict.size(); ++i) {
             for (int j = i - 1; j > -1; ++j) {
                 if (dp[j]) {
-                    if(mp[s.substr(j,i-1)]) {
+                    if (mp[s.substr(j, i - 1)]) {
                         dp[i] = true;
                         break;
                     }
@@ -84,4 +84,3 @@ public:
         return dp.back();
     }
 };
-

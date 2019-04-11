@@ -13,8 +13,8 @@
 class Solution {
 public:
     bool canJump(vector<int>& nums) {
-        int end = nums.size()-1;
-        if (end <1) return true;
+        int end = nums.size() - 1;
+        if (end < 1) return true;
         if (nums[0] == 0) return false;
 
         int pos(0);
@@ -26,17 +26,16 @@ public:
             if (pos >= end) return true;
             // else  not reachable
 
-            if (nums[pos] == 0) { // try to get across the gap
+            if (nums[pos] == 0) {  // try to get across the gap
                 int flag(pos);
-                while ( pos > 0 && pos+nums[pos] <= flag ) {
+                while (pos > 0 && pos + nums[pos] <= flag) {
                     --pos;
                 }
-                if ( pos == 0 ) {
+                if (pos == 0) {
                     return false;
                 }
             }
         }
         return false;
     }
-
 };

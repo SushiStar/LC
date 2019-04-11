@@ -2,13 +2,13 @@
  * Given a string s, find the longest palindromic substring in s.
  * You may assume the maximum length of the string is 1000.
  *
- * Date: 01.31.2019
+ * Date: 01/31/2019
+ * Author: Wei Du
  */
 
 class Solution {
 public:
-    string longestPalindromic(string s)
-    {
+    string longestPalindromic(string s) {
         if (s.empty()) {
             return string("");
         }
@@ -23,8 +23,7 @@ public:
                 for (; b >= s.begin() && f != s.end(); b--, f++) {
                     if (*b == *f) {
                         templength += 2;
-                    }
-                    else {
+                    } else {
                         break;
                     }
                 }
@@ -40,8 +39,7 @@ public:
                 for (; b >= s.begin() && f != s.end(); b--, f++) {
                     if (*b == *f) {
                         templength += 2;
-                    }
-                    else {
+                    } else {
                         break;
                     }
                 }

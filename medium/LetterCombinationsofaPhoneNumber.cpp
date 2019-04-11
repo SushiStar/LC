@@ -6,9 +6,8 @@
  * below. Note that 1 does not map to any letters.
  *
  * Date: Mar/05/2019
- *
  * Author: Wei Du
- * 
+ *
  */
 
 class Solution {
@@ -22,17 +21,18 @@ public:
         return res;
     }
 
-    void insert(string digits, int pos, const string &current_string, vector<string> &res) {
-        if (pos >= digits.size()){
+    void insert(string digits, int pos, const string &current_string,
+                vector<string> &res) {
+        if (pos >= digits.size()) {
             res.push_back(current_string);
             return;
-        } 
+        }
         string digit_char = get_char(digits.at(pos));
 
         for (int i = 0; i < digit_char.size(); ++i) {
             auto cu_string = current_string;
             cu_string.push_back(digit_char.at(i));
-            insert(digits, pos+1, cu_string, res);
+            insert(digits, pos + 1, cu_string, res);
         }
         return;
     }
