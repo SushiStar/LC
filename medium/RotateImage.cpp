@@ -24,7 +24,7 @@ public:
         }
         int half = sz/2;
         for (int i = 0; i < sz; ++i) {
-            for (int j = 0; i < half; ++j) {
+            for (int j = 0; j < half; ++j) {
                 std::swap(matrix[i][j], matrix[i][sz-j-1]);
             }
         }
