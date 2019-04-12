@@ -5,17 +5,35 @@
  * Date: Mar/25/2019
  * Author: Wei Du
  */
+#include<stack>
+#include<math>
 
 class Solution {
 public:
     int longestValidParentheses(string s) {
-        for (int i = 0; i < 10; ++i) {
-            if (i > 5) {
-                std::cout << "greate!\n";
+        if (s.empty()) return 0;
+        int sz = s.size();
+        std::stack<int> sk;
+        for (int i = 0; i < sz; ++i) {
+            if (sk.empty()) {
+                sk.push(i);
+                continue;
+            }
+            if (s[i] == ')' && s[sk.top()] == '(') {
+                sk.pop();
             } else {
-                std::cout << "smaller\n";
+                sk.push(i);
             }
         }
-        return 0;
+
+        int lst(sz);
+        int maxx(INT_MIN);
+        while (!sk.empty()){
+            maxx = std::max(maxx, lst-sk.top()-1);
+            lst = sk.top();
+            sk.pop();
+        }
+        maxx = std::max(maxx, lst);
+        return maxx;
     }
 };
