@@ -2,7 +2,7 @@
  * Program to find Dijkstra's shortest path using
  * priority queue in STL.
  *
- * source code from web: 
+ * source code from web:
  * https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-using-priority_queue-stl/
  *
  * Date: Mar/07/2019
@@ -10,24 +10,24 @@
  */
 
 #include <cstdlib>
+#include <functional>
 #include <list>
 #include <queue>
-#include <functional>
 
 using namespace std;
 
-typedef pair<int,int> ipair; 
+typedef pair<int, int> ipair;
 
 // This class represents a directed graph using adjacency list.
 // adjacency list representation
-class Graph{
+class Graph {
     int V;  // No. of vertices
 
     // In a weighted graph we need to store vertex
     // and weight pair for every edge
     list<ipair>* adj;
 
-public:  
+public:
     Graph(int V);
 
     // function to add an edge to the graph
@@ -43,23 +43,23 @@ Graph::Graph(int V) {
     adj = new list<ipair>[V];
 }
 void Graph::addEdge(int u, int v, int w) {
-    adj[u].push_back(make_pair(v,w));
-    adj[v].push_back(make_pair(u,w));
+    adj[u].push_back(make_pair(v, w));
+    adj[v].push_back(make_pair(u, w));
 }
 
 // print shortest path from src to all vertices
 void Graph::shortestPath(int s) {
     priority_queue<ipair, vector<ipair>, greater<ipair>> pq;
-    vector<int> dist(V,INT_MAX);
-    
-    pq.push(make_pair(0,s));
+    vector<int> dist(V, INT_MAX);
+
+    pq.push(make_pair(0, s));
     dist[s] = 0;
 
-    while(!pq.empty()){
+    while (!pq.empty()) {
         int u = pq.top().second;
         pq.pop();
         list<ipair>::iterator i;
-        for(i = adj[u].begin(); i!= adj[u].end(); ++i) {
+        for (i = adj[u].begin(); i != adj[u].end(); ++i) {
             int v = (*i).first;
             int w = (*i).second;
 
@@ -70,8 +70,7 @@ void Graph::shortestPath(int s) {
         }
     }
     printf("Vertex distance from %d.\n", s);
-    for (int i=0; i < V; ++i) 
-        printf("%d \t\t %d\n", i, dist[i]);
+    for (int i = 0; i < V; ++i) printf("%d \t\t %d\n", i, dist[i]);
 }
 
 int main() {
