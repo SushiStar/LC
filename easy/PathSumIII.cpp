@@ -27,7 +27,8 @@ public:
         return num;
     }
 
-    void subSum(std::vector<int>& res, TreeNode* root, const int& tgt, int& num) {
+    void subSum(std::vector<int>& res, TreeNode* root, const int& tgt,
+                int& num) {
         res.clear();
         if (!root) return;
         std::vector<int> r;
@@ -35,9 +36,25 @@ public:
         subSum(r, root->right, tgt, num);
         res.insert(res.end(), r.begin(), r.end());
         res.push_back(0);
-        for (auto& subsum:res) {
-            subsum+=root->val;
-            if (subsum==tgt) ++num;
+        for (auto& subsum : res) {
+            subsum += root->val;
+            if (subsum == tgt) ++num;
         }
     }
 };
+
+class Solution {
+public:
+    int pathSum(TreeNode* root, int sum) {
+        if (!root) return 0;
+        auto a = pathSum(root->left, sum);
+        auto b = pathSum(root->right, sum);
+        return subSum(root,sum) + a + b;
+    }
+
+    int subSum(TreeNode* root, int tgt){
+        if (!root) return 0;
+        int newtgt(tgt-root->val);
+        return (tgt==0) + subSum(root->left, newtgt) + subSum(root->right, newtgt);
+    }
+}
