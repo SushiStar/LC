@@ -3,7 +3,7 @@
  * input string valid. Return all possible results.
  * Note: the input may contain letters other than the parentheses.
  *
- * The logic is: 1) The unbalanced bracket is '(', delete '(' from now on 
+ * The logic is: 1) The unbalanced bracket is '(', delete '(' from now on
  *                  till the next unbalanced mark.
  *               2) The balanced bracket is ')', delte ')' from now on
  *                  to the forward unbalanced mark.
@@ -11,85 +11,161 @@
  * Date: Apr/17/2019
  * Author: Wei Du
  */
+#include <array>
 #include <string>
-#include <set>
 #include <vector>
 
 class Solution {
 public:
     vector<string> removeInvalidParentheses(string s) {
         std::vector<string> res;
-        if(s.empty()) return res;
-        auto seg = unbalanced(s);
-        if (seg.empty()) {
-            res.push_back(s);
-            return res;
-        }
-        // BFS
-        std::vector<std::set<std::string>> segStrings;
-        for (int i = 0; i < seg.size(); ++i) {
-            std::set<std::string> thisSeg;
-            auto target = s[seg[i]];
-            int front, back;
-            if (target == '(') {
-                front = seg[i];
-                back = i==seg.size()-1 ? s.size() : seg[i+1];
-            }else if (target == ')'){
-                front = i==0? 0 : seg[i-1];
-                back = seg[i]+1;
-            }
-            auto segment = s.substr(front, back-front);
-            for (int j = 0; j < segment.size(); ++j) {
-                if (segment[j] == target) {
-                    auto temp = segment;
-                    temp.erase(j,1);
-                    thisSeg.insert(temp);
-                }
-            }
-            segStrings.push_back(thisSeg);
-        }
-        std::vector<std::string>* q1 = new std::vector<std::string>();
-        std::vector<std::string>* q2 = new std::vector<std::string>();
-        q1->push_back("");
-        for (int k = 0; k < segStrings.size(); ++k) {
-            for (auto it = segStrings[k].begin(); it!=segStrings[k].end(); ++it) {
-                for (int j=0; j<q1->size(); ++j) {
-                    q2->push_back(q1->at(j)+*it);
-                }
-            }
-            auto temp = q1;
-            q1=q2;
-            q2=temp;
-            q2->clear();
-        }
-        if (s[seg[0]] == '(') {
-            auto bf = s.substr(0,seg[0]);
-            for (int i = 0; i < q1->size(); ++i) {
-                q1->at(i) = bf +q1->at(i);
-            }
-        }
-        if (s[seg.back()] == ')') {
-            auto bk = s.substr(seg.back()+1, s.size()-seg.back()-1 );
-            for (int i =0; i < q1->size(); ++i) {
-                q1->at(i)+=bk;
-            }
-        }
-        return *q1;
+        if (!s.empty()) removeR(s, res);
+        if (res.empty()) res.push_back("");
+        return res;
     }
 
-    std::vector<int> unbalanced(const string& s) {
-        std::vector<int> sk;
-        for (int i = 0; i < s.size(); ++i) {
-            if (s[i] == '(') {
-                sk.push_back(i);
-            } else if (s[i] == ')') {
-                if (sk.empty() || s[sk.back()] == ')')
-                    sk.push_back(i);
-                else // s[sk.top()] = '('
-                    sk.pop_back();
+private:
+    void removeR(string s, std::vector<string>& res) {
+        auto tt = getInvalid(s);
+        int t(tt[0]), t2(tt[1]);
+        if (t[0] == -1) {
+            res.push_back(s);
+            return;
+        }
+        if (s[t] == ')') {
+            if (t == 0) {
+                auto tmp = s;
+                tmp.erase(0, 1);
+                removeR(tmp, res);
+            } else {
+                while (t > 0) {
+                    if (s[t] == ')' && s[t] != s[t - 1]) {
+                        auto tmp = s;
+                        tmp.erase(t, 1);
+                        removeR(tmp, res);
+                    }
+                    --t;
+                }
+            }
+        } else {  // s[t] == '('
+            //t2 = (t2 == -1) ? s.size() : t2;
+            t2 = s.size();
+            while (t < t2) {
+                if (s[t] == '(' && (s[t + 1] != '('|| t+1 == t2)) {
+                    auto tmp = s;
+                    tmp.erase(t, 1);
+                    removeR(tmp, res);
+                }
+                ++t;
             }
         }
-        return sk;
+    }
+    std::array<int,2> getInvalid(const string& s) {
+        std::vector<int> sk;
+        std::array<int,3> res = {-1,-1};
+        for (int i = 0; i < s.size(); ++i) {
+            if (s[i] == '(') sk.push_back(i);
+            if (s[i] == ')') {
+                if (!sk.empty() && s[sk.back()] == '(')
+                    sk.pop_back();
+                else
+                    sk.push_back(i);
+            }
+        }
+        int sz = sk.size();
+        switch(sz) {
+            case 0 : 
+                break;
+            case 1 :
+                res[0] = sk[0];
+                break;
+            default:
+                if (s[res[0]] == '(')
+                res[0] = sk[0];
+                res[1] = sk[1];
+                break;
+        }
+        return res;
+    }
+};
+
+class Solution {
+public:
+    vector<string> removeInvalidParentheses(string s) {
+        std::unordered_set<string> ret;
+        if (!s.empty()) removeR(s, ret);
+        if (ret.empty()) ret.insert("");
+        std::vector<string> res;
+        for (auto i : ret) { res.push_back(i); }
+        return res;
+    }
+
+private:
+    void removeR(string s, std::unordered_set<string>& res) {
+        auto tt = getInvalid(s);
+        int t(tt[0]), t2(tt[1]);
+        if (t == -1) {
+            res.insert(s);
+            return;
+        }
+        if (s[t] == ')') {
+            if (t == 0) {
+                auto tmp = s;
+                tmp.erase(0, 1);
+                removeR(tmp, res);
+            } else {
+                while (t > 0) {
+                    if (s[t] == ')' && s[t] != s[t - 1]) {
+                        auto tmp = s;
+                        tmp.erase(t, 1);
+                        removeR(tmp, res);
+                    }
+                    --t;
+                }
+            }
+        } else {  // s[t] == '('
+//            t2 = (t2 == -1) ? s.size() : t2;
+            t2 = s.size();
+            while (t < t2) {
+                if (s[t] == '(' && (s[t + 1] != '(' || t+1 ==t2)) {
+                    auto tmp = s;
+                    tmp.erase(t, 1);
+                    removeR(tmp, res);
+                }
+                ++t;
+            }
+        }
+    }
+    std::array<int,2> getInvalid(const string& s) {
+        std::vector<int> sk;
+        std::array<int,2> res = {-1,-1};
+        for (int i = 0; i < s.size(); ++i) {
+            if (s[i] == '(') sk.push_back(i);
+            if (s[i] == ')') {
+                if (!sk.empty() && s[sk.back()] == '(')
+                    sk.pop_back();
+                else
+                    sk.push_back(i);
+            }
+        }
+        int sz = sk.size();
+        switch(sz) {
+            case 0 : 
+                break;
+            case 1 :
+                res[0] = sk[0];
+                break;
+            default:
+                if (sk[0] == '(') {
+                    res[0] == sk.back();
+                    res[1] == -1;
+                } else {
+                    res[0] = sk[0];
+                    res[1] = sk[1];                   
+                }
+                break;
+        }
+        return res;
     }
 };
 
