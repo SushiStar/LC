@@ -21,6 +21,7 @@ void quickSort(std::vector<int>& nums, int left, int right,
 void partition(std::vector<int>& nums, int left, int right,
                bool (*compare)(int& a, int& b)) {
     int pivot(nums[right]);
+    // high low
     int h(left - 1);
     int l(right + 1);
     while (h < l) {
