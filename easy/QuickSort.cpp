@@ -5,8 +5,8 @@
  * Author: Wei Du
  */
 
-#include <vector>
 #include <utility>
+#include <vector>
 
 bool compare(int& a, int& b) const { return a < b; }
 
@@ -22,13 +22,14 @@ void partition(std::vector<int>& nums, int left, int right,
                bool (*compare)(int& a, int& b)) {
     int pivot(nums[right]);
     // high low
-    int h(left - 1);
-    int l(right + 1);
+    int h(INT_MIN), l(INT_MAX);
     while (h < l) {
-        h = left-1;
-        l = right+1;
-        while (nums[++h] < pivot);
-        while (nums[--l] > pivot);
+        h = left - 1;
+        l = right + 1;
+        while (nums[++h] < pivot)
+            ;
+        while (nums[--l] > pivot)
+            ;
         if (h < l) {
             std::swap(nums[l], nums[h]);
         }
@@ -36,3 +37,4 @@ void partition(std::vector<int>& nums, int left, int right,
     std::swap(nums[h], nums[right]);
     return h;
 }
+
