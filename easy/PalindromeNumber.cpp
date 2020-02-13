@@ -2,6 +2,9 @@
  * Determine whether an integer is a palindrome.
  * An integer is a palindrome when it reads the same
  * backward as forward.
+ *
+ * Date: 02/12/2020
+ *
  */
 
 class Solution {
@@ -12,17 +15,15 @@ public:
         } else if (0 == x) {
             return true;
         } else {
-            std::vector<int> container;
+            uint32_t revs(0), orgnlX(x);
             while (x > 0) {
-                container.push_back(x % 10);
+                int buf = x % 10;
                 x /= 10;
+                revs *= 10;
+                revs += buf;
             }
-            int step = container.size() / 2;
-            for (int i = 0; i < step; ++i) {
-                if (container.at(i) != container.at(contain.size() - i - 1))
-                    return false;
-            }
-            return true;
+            return orgnlX == revs;
         }
+        return false;
     }
 };
