@@ -9,46 +9,26 @@
 class Solution {
 public:
     string longestPalindromic(string s) {
-        if (s.empty()) {
-            return string("");
-        }
-        int length = 1;
-        iterator it = s.begin();
-        for (auto m = s.begin(); m != s.end() - 1; ++m) {
-            if ((m + 1) != s.end() && *m == *(m + 1)) {
-                auto f = m + 1;  // forward
-                auto b = m;      // backward
-                int templength = 0;
-
-                for (; b >= s.begin() && f != s.end(); b--, f++) {
-                    if (*b == *f) {
-                        templength += 2;
-                    } else {
-                        break;
-                    }
-                }
-                if (length < templength) {
-                    length = templength;
-                    it = ++b;
-                }
-            }
-            if (m - 1 >= s.begin() && *(m - 1) == *(m + 1)) {
-                auto f = m + 1;
-                auto b = m - 1;
-                int templength = 1;
-                for (; b >= s.begin() && f != s.end(); b--, f++) {
-                    if (*b == *f) {
-                        templength += 2;
-                    } else {
-                        break;
-                    }
-                }
-                if (length < templength) {
-                    length = templength;
-                    it = ++b;
-                }
+        if (s.empty()) return s;
+        int start(0), len(0);
+        for (int i = 0; i < s.size(); ++i) {
+            int len1 = expandAroundCenter(i, i, s);
+            int len2 = expandAroundCenter(i, i + 1, s);
+            int thisLen = std::max(len1, len2);
+            if (len < thisLen) {
+                start = i - (thisLen - 1) / 2;
+                len = thisLen;
             }
         }
-        return s.substr(it - s.begin(), length);
+        return s.substr(start, len);
     }
-}
+
+private:
+    int expandAroundCenter(int pl, int pr, const std::string &s) {
+        while (pl >= 0 && pr < s.size() && (s[pl] == s[pr])) {
+            --pl;
+            ++pr;
+        }
+        return pr - pl - 1;
+    }
+};
