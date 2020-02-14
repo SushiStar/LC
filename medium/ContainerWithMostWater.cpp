@@ -12,22 +12,22 @@
 
 class Solution {
 public:
-    int maxArea(vector<int>& height) {
+    int maxArea(vector<int> &height) {
         int maxArea(0);
+        int left(0), right(height.size() - 1);
 
-        int size = height.size();
-        int left(0);
-        int right(size-1);
         while (left < right) {
-            int temp = (right-left) * std::min(height.at(left), height.at(right));
-            if (height.at(left) < height.at(right)){
+            int currArea =
+                (right - left) * std::min(height[left], height[right]);
+            maxArea = maxArea < currArea ? currArea : maxArea;
+
+            if (height.at(left) < height.at(right)) {
                 ++left;
             } else {
                 --right;
             }
-            maxArea = temp>maxArea? temp : maxArea;
         }
         return maxArea;
-        
+
     } // maxArea
 }
