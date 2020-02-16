@@ -5,11 +5,12 @@
  * A mapping of digits to letters (just like on the telephone buttons) is given
  * below. Note that 1 does not map to any letters.
  *
- * Date: Mar/05/2019
+ * Date: 02/16/2020
  * Author: Wei Du
  *
  */
 
+// Recursive version
 class Solution {
 public:
     vector<string> letterCombinations(string digits) {
@@ -59,4 +60,54 @@ public:
                 return string{""};
         }
     }
+};
+
+
+// non-recursive version
+class Solution {
+public:
+    std::vector<std::string> letterCombinations(std::string digits) {
+        std::vector<std::string> rlt;
+        if (digits.empty()) return rlt;
+        rlt.push_back("");
+        for (int i = 0; i < digits.size(); ++i) {
+            std::vector<std::string> temp;
+            auto si = getChars(digits[i]);
+            for (int j = 0; si.size(); ++j) {
+                for (int k = 0; k < rlt.size(); ++k){ 
+                    auto preString = rlt[k];
+                    preString.push_back(si[j]);
+                    temp.push_back(preString);
+                }
+            }
+            std::swap(rlt, temp);
+            temp.clear();
+        }
+        return rlt;
+    }
+
+private:
+    std::string getChars(char digit){ 
+        switch(digit) {
+            case '2':
+                return std::string{"abc"};
+            case '3':
+                return std::string{"def"};
+            case '4':
+                return std::string{"ghi"};
+            case '5':
+                return std::string{"jkl"};
+            case '6':
+                return std::string{"mno"};
+            case '7':
+                return std::string{"pqrs"};
+            case '8':
+                return std::string{"tuv"};
+            case '9':
+                return std::string{"wxyz"};
+            default:
+                return std::string{""};
+        }
+    }
+
 };

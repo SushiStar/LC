@@ -6,7 +6,7 @@
  * Similar to 2sum method, fix one and find the rest two(sort and find sum of 2
  * ends). No need to look back because that situation is already consisdered.
  *
- * Date: March/03/2019
+ * Date: 02/16/2020
  *
  * Autor: Wei Du
  *
@@ -27,18 +27,22 @@ public:
                 if (nums.at(l) + nums.at(r) == goal) {
                     vector<int> temp{nums.at(i), nums.at(l), nums.at(r)};
                     res.push_back(temp);
-                    
-                    while (l < r && temp.at(2) == nums.at(r)) --r;
-                    while (l < r && temp.at(1) == nums.at(l)) ++l;
+
+                    while (l < r && temp.at(2) == nums.at(r))
+                        --r;
+                    while (l < r && temp.at(1) == nums.at(l))
+                        ++l;
 
                 } else if (nums.at(l) + nums.at(r) > goal) {
                     --r;
-                } else {  // nums.at(l) + nums.at(r) < goal
+                } else { // nums.at(l) + nums.at(r) < goal
                     ++l;
                 }
             }
-
-            while (i < nums.size() - 2 && nums.at(i) == nums.at(i + 1)) ++i;
+            // take the first of the repeated number, it has a larger solution
+            // set than later repeated numbers
+            while (i < nums.size() - 2 && nums.at(i) == nums.at(i + 1))
+                ++i;
         }
         return res;
     }
