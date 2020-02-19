@@ -2,11 +2,11 @@
  * Given a string containing just the characters '(' and ')',
  * find the length of the longest valid (well-formed) parentheses substring.
  *
- * Date: Mar/25/2019
+ * Date: 02/19/2020
  * Author: Wei Du
  */
-#include<stack>
-#include<math>
+#include <math>
+#include <stack>
 
 class Solution {
 public:
@@ -28,8 +28,8 @@ public:
 
         int lst(sz);
         int maxx(INT_MIN);
-        while (!sk.empty()){
-            maxx = std::max(maxx, lst-sk.top()-1);
+        while (!sk.empty()) {
+            maxx = std::max(maxx, lst - sk.top() - 1);
             lst = sk.top();
             sk.pop();
         }
