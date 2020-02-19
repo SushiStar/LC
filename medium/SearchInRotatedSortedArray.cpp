@@ -5,7 +5,7 @@
  * return its index, otherwise return -1.
  *
  * You may assume no duplicate exist in this array.
- * Your algorithm's run time complexity must be in the order of Olog(n).
+ * Your algorithm's run time complexity must be in the order of O(log(n)).
  *
  * Date: Mar/28/2019
  *
