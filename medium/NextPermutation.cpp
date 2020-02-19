@@ -5,9 +5,10 @@
  * the lowest possible order.
  * The replacement must be in place, and use only constant extra memory.
  *
- * Date: Mar/27/2019
+ * Date: 02/18/2020
  * Author: Wei Du
  */
+
 class Solution {
 public:
     void nextPermutation(vector<int>& nums) {
@@ -22,14 +23,12 @@ public:
                     if (nums[i] < nums[j]) flag = j;
                     break;
                 }
-                temp = nums[i];
-                nums[i] = nums[flag];
-                nums[flag] = temp;
+                std::swap(nums[i], nums[flag]);
                 std::sort(nums.begin()+i+1, nums.end());
                 return;
             }
         }
-        std::sort(nums.begin(), nums.end());
+        std::reverse(nums.begin(), nums.end());
         return;
     }
 };
