@@ -4,11 +4,10 @@
  * You are given a target value to search. If found in the array
  * return its index, otherwise return -1.
  *
- * You may assume no duplicate exist in this array.
- * Your algorithm's run time complexity must be in the order of O(log(n)).
+ * You may assume no duplicate exists in this array.
+ * Your algorithm's runtime complexity must be in the order of O(log(n)).
  *
- * Date: Mar/28/2019
- *
+ * Date: 02/19/2020
  * Author: Wei Du
  */
 
@@ -18,8 +17,7 @@ public:
         if (nums.empty()) return -1;
         int end = nums.size()-1;
 
-        int pvt = findMax(nums, 0, end);
-        std::cout << pvt;
+        int pvt = findMax(nums, 0, end);    // find the pivot
 
         int left(0), right(end);
         if (target > nums[pvt]) return -1;
