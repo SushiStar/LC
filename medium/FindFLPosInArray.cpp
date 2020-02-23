@@ -4,52 +4,47 @@
  *
  * Your algorithms runtime complexity must be in the order of Olog(n);
  *
- * Date: Mar/28/2019
+ * Date: 02/23/2020
  *
  * Author: Wei Du
  */
 
 class Solution {
 public:
-    vector<int> searchRange(vector<int>& nums, int target) {
-        std::vector<int> res{-1,-1};
-        if (nums.empty()) return res;
+    vector<int> searchRange(vector<int> &nums, int target) {
+        std::vector<int> rlt{-1, -1};
+        if (nums.empty() || target < nums.front() || target > nums.back())
+            return rlt;
 
-        int end = nums.size() -1;
-        if (nums[0] > target || nums[end] < target) return res;
+        auto indices = findFL(nums, target, 0, nums.size() - 1);
 
-        int left(0),right(end);
-        std::pair<int,int> ress = findFL(nums,left, right, target);
-
-        if (ress.first == INT_MAX && ress.second == INT_MIN) return res;
-        if (ress.first == INT_MAX) ress.first = ress.second;
-        if (ress.second == INT_MIN) ress.second = ress.first;
-        res[0] = ress.first;
-        res[1] = ress.second;
+        if (indices.first < INT_MAX) {
+            rlt[0] = indices.first;
+            rlt[1] = indices.second;
+        }
         return res;
     }
 
-    std::pair<int,int> findFL(vector<int>& nums,int left, int right, int target){
-        if (left == right){
-            if (nums[left] == target) return std::make_pair(left, right);
-            else  return std::make_pair(INT_MAX,INT_MIN);
+    std::pair<int, int> findFL(vector<int> &nums, int target, int left,
+                               int right) {
+        std::pair<int, int> rlt(INT_MAX, INT_MIN);
+
+        if (left + 1 >= right) {
+            if (nums[left] == target) {
+                rlt.first = left;
+                rlt.second = nums[right] == target ? right : left;
+            } else if (nums[right] == target) {
+                rlt.first = right;
+                rlt.second = right;
+            }
+            return rlt;
         }
 
-        int lp(INT_MAX);
-        int rp(INT_MIN);
-        if (left+1 == right) {
-            if(nums[left] == target) lp = left;
-            if(nums[right] == target) rp = right;
-            return std::make_pair(lp,rp);
-        }
-
-        int mid = (left+right) /2;
-        auto l = findFL(nums,left,mid,target);
-        lp = min(lp, l.first);
-        rp = max(rp, l.second);
-        auto r = findFL(nums, mid, right, target);
-        lp = min(lp, r.first);
-        rp = max(rp, r.second);
-        return std::make_pair(lp, rp);
+        int mid = (left + right) / 2;
+        auto lpart = findFL(nums, target, left, mid);
+        auto rpart = findFL(nums, target, mid + 1, right);
+        rlt.first = lpart.first < rpart.fisrt ? lpart.first : rpart.first;
+        rlt.second = lpart.second > rpart.second ? lpart.second : rpart.second;
+        return rlt;
     }
 };
