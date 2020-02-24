@@ -3,24 +3,25 @@
  * integer. Your algorithm should run in O(n) time with constant extra
  * space.
  *
- * Date: Apr/24/2019
+ * Put the right number in the right place.
+ *
+ * Date: 02/23/2020
  * Author: Wei Du
  */
-#include <utility>
-#include <vector>
 
 class Solution {
 public:
-    int firstMissingPositive(vector<int>& nums) {
+    int firstMissingPositive(vector<int> &nums) {
         if (nums.empty()) return 1;
         for (int i = 0; i < nums.size(); ++i) {
-            while(nums[i] > 0 && nums[i] <= nums.size() && nums[i]!=nums[nums[i]-1]) {
-                std::swap(nums[i], nums[nums[i]-1]);
+            while (nums[i] > 0 && nums[i] <= nums.size() &&
+                   nums[i] != nums[nums[i] - 1]) {
+                std::swap(nums[i], nums[nums[i] - 1]);
             }
         }
         for (int i = 0; i < nums.size(); ++i) {
-            if (nums[i] != i+1) return i+1;
+            if (nums[i] != i + 1) return i + 1;
         }
-        return nums.back()+1;
+        return nums.back() + 1;
     }
 };
