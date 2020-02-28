@@ -20,7 +20,7 @@ public:
         }
         return res;
     }
-    [noreturn] void Down(vector<int> temp_res, vector<int> nums, set<vector<int>> &sett) {
+    void Down(vector<int> temp_res, vector<int> nums, set<vector<int>> &sett) {
         if (nums.size() == 1) {
             temp_res.push_back(nums.at(0));
             sett.insert(temp_res);
