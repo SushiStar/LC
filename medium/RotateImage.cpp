@@ -6,7 +6,9 @@
  * modify the input 2D matrix directly.
  * Do not allocate another 2D matrix and do the rotation.
  *
- * Date: Mar/29/2019
+ * hint: Diagonal mirror, and flip
+ *
+ * Date: 03/04/2020
  *
  * Author: Wei Du
  */
@@ -14,19 +16,16 @@
 class Solution {
 public:
     void rotate(vector<vector<int>>& matrix) {
+        if (matrix.empty()||matrix[0].empty()) return;
         int sz = matrix.size()-1;
-        if (sz <= 1) return;
-
         for (int i = 0; i <sz; ++i) {
-            for(int j = i+1; j < sz; ++j) {
-                std::swap(matrix[i][j], matrix[j][i]);
+            for(int j = 0; j < sz-1; ++j) {
+                std::swap(matrix[j][i], matrix[sz-i][sz-j]);
             }
         }
         int half = sz/2;
-        for (int i = 0; i < sz; ++i) {
-            for (int j = 0; j < half; ++j) {
-                std::swap(matrix[i][j], matrix[i][sz-j-1]);
-            }
+        for (int j = 0; j < half; ++j) {
+            std::swap(matrix[j], matrix[sz-j]);
         }
     }
 };
