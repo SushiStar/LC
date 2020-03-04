@@ -2,7 +2,7 @@
  * Given an array of strings, group anagrams together.
  * All inputs will be in lowercase.
  *
- * Date: Mar/29/2019
+ * Date: 03/04/2020
  *
  * Author: Wei Du
  */
