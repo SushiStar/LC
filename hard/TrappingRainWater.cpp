@@ -3,7 +3,7 @@
  * map where the width of each bar is 1, compute how much water
  * it is able to trap after raining.
  *
- * Date: Mar/28/2019
+ * Date: 02/27/2020
  * Author: Wei Du
  */
 class Solution {
@@ -47,7 +47,7 @@ public:
         return res;
     }
 
-    // binsection search the max value within a range
+    // bisection search the max value within a range
     int findMax(vector<int>&height, int left, int right) {
         if (left == right) {
             return left;
@@ -59,4 +59,36 @@ public:
         }
     }
 
+};
+
+// choose the shorter one, and go to the other side
+// 1. anything in between is smaller, successfully make up
+// 2. something higher exist in between, make up to the higher one
+//      then start the next iteration
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        if (height.empty()) return 0;
+        int maxLeft(0), maxRight(0);
+        int left(0), right(height.size()-1);
+        int rlt(0);
+        while(left < right) {
+            if (height[left] < height[right] ){
+                if (maxLeft < height[left]) {
+                    maxLeft = height[left];
+                } else {
+                    rlt += (maxLeft - height[left]);
+                }               
+                ++left;
+            } else {
+                if (maxRight < height[right]) {
+                    maxRight = height[right];
+                }else {
+                    rlt += (maxRight - height[right]);
+                }
+                --right;
+            }
+        }
+        return rlt;
+    }
 };
