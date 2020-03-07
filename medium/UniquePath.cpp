@@ -1,7 +1,11 @@
 /*
- * I am tired now, taking a break;
+ * A robot is located at the top-left corner of a mxn grid
+ * 
+ * The robot can only move either down or right at any point in time.
+ * The robot is trying to reach the bottom-right corner of the grid.
+ * How many possible unique paths are there? 
  *
- * Date: Mar/29/2019
+ * Date: 03/07/2020
  *
  * Author: Wei Du
  */
@@ -16,5 +20,16 @@ public:
             }
         }
         return dp[m - 1][n - 1];
+    }
+};
+
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        size_t result{1};
+        for (int i = 0; i < n-1; ++i) {
+            result = result*(m+i)/(i+1);
+        }
+        return result;
     }
 };
