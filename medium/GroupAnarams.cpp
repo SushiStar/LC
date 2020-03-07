@@ -9,29 +9,20 @@
 
 class Solution {
 public:
-    vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        vector<vector<string>> res;
-        if (strs.empty()) return res;
-
-        std::unordered_map<size_t, int> cmb2res;
-        for(auto tpstr:strs){ 
-            auto key = hash_fn(tpstr);
-            if (cmb2res.find(key)==cmb2res.end()) {
-                int val = res.size();
-                cmb2res[key] = val;
-                std::vector<string> tmp{tpstr};
-                res.push_back(tmp);
+    vector<vector<string>> groupAnagrams(vector<string> &strs) {
+        std::vector<std::vector<std::string>> rlt;
+        if (strs.empty()) return rlt;
+        std::unordered_map<std::string, int> strIdx;
+        for (auto &str : strs) {
+            std::string temp{str};
+            std::sort(temp.begin(), temp.end());
+            if (strIdx.find(temp) == strIdx.end()) {
+                strIdx[temp] = rlt.size();
+                rlt.push_back(std::vector<std::string>{str});
             } else {
-                int val = cmb2res[key];
-                res[val].push_back(tpstr);
+                rlt[strIdx[temp]].push_back(str);
             }
         }
-        return res;
-    }
-
-    size_t hash_fn(string key) {
-        std::sort(key.begin(), key.end());
-        std::hash<std::string> hs;
-        return hs(key);
+        return rlt;
     }
 };
