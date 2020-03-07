@@ -1,14 +1,21 @@
+/*
+ * Given an integer array nums, find the continguous subrrary (containing at
+ * least one number) which has the largest sum and return its sum.
+ *
+ * Date: 03/07/2020
+ * Author: Wei Du
+ */
+
 class Solution {
 public:
-    int maxSubArray(vector<int>& nums) {
-        std::vector<int> dp(nums.size());
-        dp[0] = nums[0];
-        int max = nums[0];
-        for (int i = 0; i < nums.size(); ++i) {
-            dp[i] =
-                nums[i] > nums[i] + dp[i - 1] ? nums[i] : nums[i] + dp[i - 1];
-            max = max > dp[i] ? max : dp[i];
+    int maxSubArray(vector<int> &nums) {
+        if (nums.empty()) return 0;
+        int sum{0};
+        int maxSum{INT_MIN};
+        for (auto &num : nums) {
+            sum = sum > 0 ? sum + num : num;
+            maxSum = std::max(maxSum, sum);
         }
-        return max;
+        return maxSum;
     }
 };
