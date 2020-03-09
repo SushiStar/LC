@@ -2,23 +2,50 @@
  * Given a string S and T, find the minimum window in S
  * that will contain all characters in T in time complexity O(n).
  *
- * Date: Mar/31/2019
+ * If there is no such window in S that covers all characters in T, return the
+ * empty string "".
+ * If there is such window, you are guaranteed that there will always be only
+ * one unique minimum window in S.
+ *
+ * Date: 03/08/2020
  *
  * Author: Wei Du
  */
 class Solution {
 public:
     string minWindow(string s, string t) {
-        vector<int> map(128, 0);
-        for (auto c : t) map[c]++;
-        int counter = t.size(), begin = 0, end = 0, d = INT_MAX, head = 0;
-        while (end < s.size()) {
-            if (map[s[end++]]-- > 0) counter--;  // in t
-            while (counter == 0) {               // valid
-                if (end - begin < d) d = end - (head = begin);
-                if (map[s[begin++]]++ == 0) counter++;  // make it invalid
+        std::unordered_map<char, int> mp;
+        for (auto ch : t)
+            mp[ch]++;
+        int lptr{0}, rptr{0};
+        int minDist{INT_MAX};
+        int num = t.size();
+        int start{lptr};
+        while (rptr < s.size()) {
+            // expand
+            if (num > 0 && mp.find(s[rptr]) != mp.end()) {
+                if (mp[s[rptr]] > 0) {
+                    num--;
+                }
+                mp[s[rptr]]--;
+            }
+            rptr++;
+
+            // shrink
+            while (num == 0) {
+                if (minDist > rptr - lptr) {
+                    minDist = rptr - lptr;
+                    start = lptr;
+                }
+                if (mp.find(s[lptr]) != mp.end()) {
+                    if (mp[s[lptr]] == 0) {
+                        num++;
+                    }
+                    mp[s[lptr]]++;
+                }
+                lptr++;
             }
         }
-        return d == INT_MAX ? "" : s.substr(head, d);
+        return minDist == INT_MAX ? std::string("") : s.substr(start, minDist);
     }
 };
