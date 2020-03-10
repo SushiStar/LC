@@ -13,19 +13,41 @@
 class Solution {
 public:
     int removeDuplicates(vector<int> &nums) {
-        auto pos = nums.begin();
-        while (nums.end() != nums.begin()) {
-            auto buf = pos + 1;
-            if (nums.end() != buf) {
-                if (*buf == *pos) {
-                    nums.erase(buf);
-                } else {
-                    pos = buf;
-                }
+        if (nums.size() < 2) return nums.size();
+        auto lptr{nums.begin()};
+        auto rptr{nums.begin()};
+        while (lptr != nums.end()) {
+            while (rptr != nums.end() && *lptr == *rptr) {
+                ++rptr;
+            }
+            if (lptr + 1 < rptr) {
+                nums.erase(lptr + 1, rptr);
+                rptr = lptr;
             } else {
-                return nums.size();
+                lptr = rptr;
             }
         }
         return nums.size();
+
+        return nums.size();
+    }
+};
+
+class Solution {
+public:
+    int removeDuplicates(std::vector<int> &nums) {
+        if (nums.size() < 2) return nums.size();
+        int lptr{1};
+        int rptr{1};
+        while (rptr < nums.size()) {
+            if (nums[rptr] != nums[rptr-1]) {
+                nums[lptr] = nums[rptr];
+                ++lptr;
+            }
+            ++rptr;
+        }
+        nums.erase(nums.begin()+lptr, nums.end());
+        return nums.size();
+
     }
 };
