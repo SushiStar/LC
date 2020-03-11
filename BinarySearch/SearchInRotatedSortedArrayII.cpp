@@ -46,4 +46,15 @@ private:
         }
         return nums[mid] == target ? mid : -1;
     }
+    int findMax(vector<int> &nums, int left, int right) {
+        // one element
+        if (left == right) return left;
+
+        if (left + 1 == right) return nums[left] > nums[right] ? left : right;
+
+        int mid = (left + right) / 2;
+        int l = findMax(nums, left, mid);
+        int r = findMax(nums, mid, right);
+        return nums[l] > nums[r] ? l : r;
+    }
 };
