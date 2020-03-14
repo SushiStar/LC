@@ -1,55 +1,22 @@
 /*
- * Given an integer n, generate all structurally unique BST's that store
- * values 1...n.
- *
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
+ * Given n, how many structurally unique BST's that stores values 1 ... n?
+ * DP get.
  *
  * Date: 03/14/2020
  * Author: Wei Du
  */
-
 class Solution {
 public:
-    vector<TreeNode *> generateTrees(int n) {
-        if (n == 0) {
-            return std::vector<TreeNode *>{};
-        }
-        std::vector<TreeNode *> result = generateSubTrees(1, n);
-        return result;
-    }
-
-private:
-    std::vector<TreeNode *> generateSubTrees(int left, int right) {
-        std::vector<TreeNode *> result;
-        if (left > right) {
-            result.push_back(nullptr);
-            return std::move(result);
-        }
-
-        if (left == right) {
-            TreeNode *thisNode = new TreeNode(left);
-            result.push_back(thisNode);
-            return std::move(result);
-        }
-
-        for (int i = left; i <= right; ++i) {
-            auto lSubTree = generateSubTrees(left, i - 1);
-            auto rSubTree = generateSubTrees(i + 1, right);
-            for (auto lst : lSubTree) {
-                for (auto rst : rSubTree) {
-                    TreeNode *thisNode = new TreeNode(i);
-                    thisNode->left = lst;
-                    thisNode->right = rst;
-                    result.push_back(thisNode);
-                }
+    int numTrees(int n) {
+        if (n <= 1) return 1;
+        std::vector<int> solution(n + 1, 0);
+        solution[0] = 0;
+        solution[1] = 1;
+        for (int i = 2; i < n + 1; ++i) {
+            for (int j = 0; j < i; ++j) {
+                solution[i] += solution[j] * solution[i - 1 - j];
             }
         }
-        return std::move(result);
+        return solution[n];
     }
 };
