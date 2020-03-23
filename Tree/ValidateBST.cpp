@@ -28,6 +28,7 @@ private:
     }
 };
 
+// in order traversal is the order that travels from small to large values
 class Solution {
 public:
     bool isValidBST(TreeNode* root) {
