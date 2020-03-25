@@ -181,7 +181,12 @@ private:
             if (stk > -1)  continue;
             // ')' more than '('
             for (int j = last_j; j <= i; ++j) {
+                // always delete the first occurrence of ')' to avoid reapeating
                 if (s[j] == ')' && (j == last_j|| s[j-1] != ')')) {
+                    // i, j position is where get wrong, now fix it,
+                    // then the new string fron 0 to i should be fine
+                    // the last delete place is j, you cannot delete anything before j
+                    // in case of repeating
                     auto duplicate(s);
                     duplicate.erase(j,1);
                     removeR(duplicate, result,i,j);
@@ -200,7 +205,12 @@ private:
 
             // '(' more than ')'
             for (int j =  last_j; j >= i; --j) {
+                // always delete the first occurrence of '(' to avoid repeating
                 if (s[j] == '(' && (j == last_j || s[j+1] != '(')) {
+                    // i, j position is where get wrong, now fix it,
+                    // then the new string from the end to current i-1 should be fine
+                    // the last delete place is j, you cannot delete anything after j
+                    // in case of repeating
                     auto duplicate(s);
                     duplicate.erase(j,1);
                     removeL(duplicate, result, i-1,j);
