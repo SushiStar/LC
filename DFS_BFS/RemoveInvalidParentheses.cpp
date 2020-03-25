@@ -157,3 +157,57 @@ private:
     }
     
 };
+
+// even better
+class Solution {
+public:
+    vector<string> removeInvalidParentheses(string s) {
+        std::vector<std::string> result{};
+        std::vector<std::string> result1{};
+        removeR(s, result1, 0,0);
+        for (auto &s : result1) {
+            removeL(s, result, s.size()-1,s.size()-1);
+        }
+        if (result.empty()){ 
+            result.push_back(std::string(""));
+        }
+        return result;
+    }
+private:
+  void removeR(std::string& s, std::vector<std::string> & result, int last_i, int last_j) {
+        for (int stk{0}, i = last_i; i < (int)s.size(); ++i ) {
+            if (s[i] == '(') ++stk;
+            else if (s[i] == ')') --stk;
+            if (stk > -1)  continue;
+            // ')' more than '('
+            for (int j = last_j; j <= i; ++j) {
+                if (s[j] == ')' && (j == last_j|| s[j-1] != ')')) {
+                    auto duplicate(s);
+                    duplicate.erase(j,1);
+                    removeR(duplicate, result,i,j);
+                }
+            }
+            return;
+        }
+        result.push_back(s);
+    }
+
+    void removeL(std::string& s, std::vector<std::string>& result, int last_i, int last_j) {
+        for (int stk{0}, i = last_i; i > -1; --i){
+            if (s[i] == '(') ++stk;
+            else if (s[i] == ')') --stk;
+            if (stk < 1) continue;
+
+            // '(' more than ')'
+            for (int j =  last_j; j >= i; --j) {
+                if (s[j] == '(' && (j == last_j || s[j+1] != '(')) {
+                    auto duplicate(s);
+                    duplicate.erase(j,1);
+                    removeL(duplicate, result, i-1,j);
+                }
+            }
+            return;
+        }
+        result.push_back(s);
+    }
+};
