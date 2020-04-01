@@ -5,7 +5,7 @@
  * Return the sum of the three integers.
  * You may assume that each input would have exactly one solution.
  *
- * Date: 03/09/2020
+ * Date: 04/01/2020
  *
  * Autor: Wei Du
  *
