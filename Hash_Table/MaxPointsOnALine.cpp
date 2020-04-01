@@ -73,3 +73,52 @@ private:
         return std::move(l);
     }
 };
+
+// better solution;
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        if (points.empty() || points[0].empty()) return 0;
+        if (points.size() == 1) return 1;
+        int result{0};
+        // line is represented by string
+        for (int i = 0; i < points.size(); ++i) {
+            // lineCounter for line through this point
+            int duplicate{1};
+            std::unordered_map<std::string,int> lineCounter;
+            for (int j = i+1; j < points.size(); ++j) {
+                auto deltaX = points[i][0] - points[j][0];
+                auto deltaY = points[i][1] - points[j][1];
+                if (deltaX == 0 && deltaY == 0) {
+                    ++duplicate;
+                    continue;
+                }
+                if (deltaX == 0) {
+                    deltaY = INT_MAX;
+                } else if (deltaY == 0) {
+                    deltaX = INT_MAX;
+                } else {
+                    auto gcd = GCD(deltaX, deltaY);
+                    deltaX/= gcd;
+                    deltaY/= gcd;
+                }
+                std::string currLine = std::to_string(deltaX)+"_"+std::to_string(deltaY);
+                ++lineCounter[currLine];
+            }
+            result = std::max(result, duplicate);
+            for (auto l : lineCounter) {
+                result = std::max(result, l.second+duplicate);
+            }
+        }
+        return result;
+    }
+private:
+    int GCD(int x, int y) {
+        while (y) {
+            auto tmp = x%y;
+            x = y;
+            y = tmp;
+        }
+        return x;
+    }
+};
