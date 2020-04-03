@@ -6,7 +6,6 @@
  * Date: 04/02/2020
  * Author: Wei Du
  */
-
 class Solution {
 public:
     int trapRainWater(vector<vector<int>> &heightMap) {
@@ -36,13 +35,9 @@ public:
             auto curr = pq.top();
             pq.pop();
 
-            coord coordU{curr[0] - 1, curr[1], 0};
-            coord coordD{curr[0] + 1, curr[1], 0};
-            coord coordL{curr[0], curr[1] - 1, 0};
-            coord coordR{curr[0], curr[1] + 1, 0};
-
-            if (coordU[0] > -1 && !closed[coordU[0] * col + coordU[1]]) {
-                coordU[2] = heightMap[coordU[0]][coordU[1]];
+            if (curr[0] > 0 && !closed[(curr[0] - 1) * col + curr[1]]) {
+                coord coordU{curr[0] - 1, curr[1],
+                             heightMap[curr[0] - 1][curr[1]]};
                 if (curr[2] > coordU[2]) {
                     result += (curr[2] - coordU[2]);
                     coordU[2] = curr[2];
@@ -51,8 +46,9 @@ public:
                 closed[coordU[0] * col + coordU[1]] = true;
             }
 
-            if (coordD[0] < row && !closed[coordD[0] * col + coordU[1]]) {
-                coordD[2] = heightMap[coordD[0]][coordD[1]];
+            if (curr[0] + 1 < row && !closed[(curr[0] + 1) * col + curr[1]]) {
+                coord coordD{curr[0] + 1, curr[1],
+                             heightMap[curr[0] + 1][curr[1]]};
                 if (curr[2] > coordD[2]) {
                     result += (curr[2] - coordD[2]);
                     coordD[2] = curr[2];
@@ -61,8 +57,9 @@ public:
                 closed[coordD[0] * col + coordD[1]] = true;
             }
 
-            if (coordL[1] > -1 && !closed[coordL[0] * col + coordL[1]]) {
-                coordL[2] = heightMap[coordL[0]][coordL[1]];
+            if (curr[1] > 0 && !closed[curr[0] * col + curr[1] - 1]) {
+                coord coordL{curr[0], curr[1] - 1,
+                             heightMap[curr[0]][curr[1] - 1]};
                 if (curr[2] > coordL[2]) {
                     result += (curr[2] - coordL[2]);
                     coordL[2] = curr[2];
@@ -71,8 +68,9 @@ public:
                 closed[coordL[0] * col + coordL[1]] = true;
             }
 
-            if (coordR[1] < col && !closed[coordR[0] * col + coordR[1]]) {
-                coordR[2] = heightMap[coordR[0]][coordR[1]];
+            if (curr[1] + 1 < col && !closed[curr[0] * col + curr[1] + 1]) {
+                coord coordR{curr[0], curr[1] + 1,
+                             heightMap[curr[0]][curr[1] + 1]};
                 if (curr[2] > coordR[2]) {
                     result += (curr[2] - coordR[2]);
                     coordR[2] = curr[2];
