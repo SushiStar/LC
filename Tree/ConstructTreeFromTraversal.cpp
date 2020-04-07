@@ -34,3 +34,45 @@ private:
         return root;
     }
 };
+
+// iterative
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
+        TreeNode *root(nullptr);
+        if (preorder.empty()) return root;
+        root = new TreeNode(preorder[0]);
+
+        std::stack<TreeNode *> stk;
+        stk.push(root);
+
+        int idxIn{0};
+        for (int i = 1; i < preorder.size(); ++i) {
+            TreeNode *curr = stk.top();
+            if (curr->val != inorder[idxIn]) {
+                TreeNode *tmp = new TreeNode(preorder[i]);
+                curr->left = tmp;
+                stk.push(tmp);
+                curr = stk.top();
+            } else { // curr->val == inorder[idxIn];
+                while (!stk.empty() && stk.top()->val == inorder[idxIn]) {
+                    curr = stk.top();
+                    stk.pop();
+                    ++idxIn;
+                }
+                curr->right = new TreeNode(preorder[i]);
+                stk.push(curr->right);
+            }
+        }
+        return root;
+    }
+};
