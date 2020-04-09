@@ -7,28 +7,30 @@
  * you buy again). After you sell your stock, you cannot buy stock on next day.
  * (ie, cooldown 1 day)
  *
- * Notes:   buy[i]  = max(rest[i-1]-price,
- *          buy[i-1]) sell[i] = max(buy[i-1]+price,
- *          sell[i-1]) rest[i] = max(sell[i-1], buy[i-1], rest[i-1])
- *          rest[i] = sell[i-1]
- *          rest[i] >= buy[i] (always)
+ *  last day day[i] would be cooldown, or sell:
+ *  1. cooldown, day[i] = day[i-1]
+ *  2. sell: day[i] = -prices[j](buy) + prices[i] + day[j-1]
+ *  3. if day[j] is buy day, day[j-1] should be cooldown day, then, day[j-1] =
+ * day[j-2]
+ *  ==> day[i] = std::max(day[i-1], day[j-2]-prices[j]+prices[i]);
+ *  then we should keep track of the max of day[j-2]-prices[j],where j < i
  *
- * Date:Apr/13/2019
+ * Date: 04/09/2020
  * Author: Wei Du
  */
-#include <vector>
 
 class Solution {
 public:
     int maxProfit(vector<int> &prices) {
-        int buy(INT_MIN), sell(0), prev_sell(0), prev_buy;
-        for (int price : prices) {
-            prev_buy = buy;
-            buy = max(prev_sell - price, buy);
-            prev_sell = sell;
-            sell = max(prev_buy + price, sell);
+        if (prices.size() < 2) return 0;
+        std::vector<int> rlt(prices.size(), 0);
+        rlt[0] = 0;
+        rlt[1] = std::max(rlt[0], prices[1] - prices[0]);
+        int maxDiff(-std::min(prices[0], prices[1]));
+        for (int i = 2; i < prices.size(); ++i) {
+            rlt[i] = std::max(rlt[i - 1], maxDiff + prices[i]);
+            maxDiff = std::max(maxDiff, rlt[i - 2] - prices[i]);
         }
-        return sell;
+        return rlt.back();
     }
 };
-
