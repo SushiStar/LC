@@ -1,0 +1,8 @@
+DP notes
+
+1. 重叠子问题；--> the same place that will be computed multiple times in brute force mehtods.
+2. 最优子结构；--> Optimal solution to subproblem will contribute to the current optimaization problem.
+3. 状态转移方程；
+    1). 遍历过程中，所需的状态必须是已经计算出来的。
+    2). 遍历的终点必须是存储结果的那个位置。
+
