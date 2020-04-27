@@ -57,9 +57,9 @@ public:
         if (matrix.empty() || matrix[0].empty()) return 0;
         int numRow(matrix.size());
         int numCol(matrix[0].size());
-        std::vector<int> height(0, numCol);
-        std::vector<int> leftBoundary(0, numCol);
-        std::vector<int> rightBoundary(numCol - 1, numCol);
+        std::vector<int> height(numCol,0);
+        std::vector<int> leftBoundary(numCol,0);
+        std::vector<int> rightBoundary(numCol , numCol- 1);
         int result{0};
         for (int i = 0; i < numRow; ++i) {
             int currLeftBoundary(0);
