@@ -16,6 +16,7 @@ public:
         int size = needle.size();
         for(int i = 0; i < haystack.size() -size + 1; ++i ) 
            if(haystack.substr(i, size) == needle) 
+               return i;
         return -1;
     }
 };
