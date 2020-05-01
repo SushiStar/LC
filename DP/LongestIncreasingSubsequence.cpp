@@ -5,6 +5,8 @@
  * Date: 04/11/2020
  * Author: Wei Du
  */
+#include <vector>
+using namespace std;
 
 // patience sorting
 #include <vector>
@@ -42,7 +44,7 @@ private:
 
 
 // DP
-class Solution {
+class Solutiona {
 public:
     int lengthOfLIS(vector<int> &nums) {
         if (nums.empty()) return 0;
