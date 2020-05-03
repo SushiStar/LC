@@ -6,6 +6,9 @@
  * Date: 04/03/2020
  * Author: Wei Du
  */
+#include <numeric>
+#include <vector>
+using namespace std;
 
 // Inversion Count
 // Merge Sort
@@ -53,5 +56,63 @@ private:
                 }
             }
         }
+    }
+};
+
+class Solution1 {
+public:
+    vector<int> countSmaller(std::vector<int> &nums) {
+        std::vector<int> ret{};
+        if (nums.empty()) return ret;
+        std::vector<number> numVct{};
+        for (int i = 0; i < nums.size(); ++i)
+            numVct.push_back(number(nums[i], i));
+        mergeSort(numVct, 0, nums.size() - 1);
+        ret.resize(nums.size());
+        for (auto num : numVct)
+            ret[num.idx] = num.cnt;
+        return ret;
+    }
+
+private:
+    struct number {
+        number(int val_, int idx_) : val(val_), idx(idx_), cnt(0) {}
+        int val;
+        int idx;
+        int cnt;
+    };
+
+    void mergeSort(std::vector<number> &vct, int left, int right) {
+        if (left >= right) return;
+        int mid(left + (right - left) / 2);
+        mergeSort(vct, left, mid);
+        mergeSort(vct, mid + 1, right);
+
+        // merge
+        std::vector<number &> vctcp;
+        int ptr1(left), ptr2(mid + 1);
+        int cutIn(0);
+        while (ptr1 <= mid || ptr2 <= right) {
+            if (ptr1 > mid) {
+                vctcp.push_back(vct[ptr2]);
+                ++ptr2;
+            } else if (ptr2 > right) {
+                vct[ptr1].cnt += cutIn;
+                vctcp.push_back(vct[ptr1]);
+                ++ptr1;
+            } else {
+                if (vct[ptr1].val > vct[ptr2].val) {
+                    ++cutIn;
+                    vctcp.push_back(vct[ptr2]);
+                    ++ptr2;
+                } else {
+                    vct[ptr1].cnt += cutIn;
+                    vctcp.push_back(vct[ptr1]);
+                    ++ptr1;
+                }
+            }
+        }
+        for (int i = left; i <= right; ++i)
+            std::swap(vct[i], vctcp[i - left]);
     }
 };
