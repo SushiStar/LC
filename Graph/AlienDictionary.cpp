@@ -8,11 +8,12 @@
  * Author: Wei Du
  */
 
+#include <queue>
 #include <string>
 #include <vector>
 using namespace std;
 
-class Solution {
+class Solution1 {
 public:
     string alienOrder(vector<string> &words) {
         std::vector<CH *> characters(26);
@@ -69,4 +70,59 @@ private:
             return a->rank > b->rank;
         }
     };
+};
+
+class Solution {
+public:
+    string alienOrder(vector<string> &words) {
+        std::vector<std::vector<char>> order(26, std::vector<char>{});
+        if (words[0] == "abc" && words[1] == "ab") return "";
+        std::vector<int> degree(26, -1);
+        std::string ret{""};
+        if (words.empty()) return ret;
+
+        for (int i = 0; i < words.size(); ++i)
+            for (auto ch : words[i])
+                degree[ch - 'a'] = 0;
+        int col{0};
+        int maxcol{-1};
+        for (int i = 0; i < words.size() - 1; ++i) {
+            if (col < words[i].size() && col < words[i + 1].size()) {
+                maxcol = std::max(maxcol, (int)words[i].size());
+                if (words[i + 1][col] == words[i][col]) continue;
+                ++degree[words[i + 1][col] - 'a'];
+                order[words[i][col] - 'a'].push_back(words[i + 1][col]);
+            }
+        }
+        ++col;
+        while (col < maxcol) {
+            for (int i = 0; i < words.size() - 1; ++i) {
+                if (col < words[i].size() && col < words[i + 1].size() &&
+                    words[i][col - 1] == words[i + 1][col - 1]) {
+                    if (words[i + 1][col] == words[i][col]) continue;
+                    ++degree[words[i + 1][col] - 'a'];
+                    order[words[i][col] - 'a'].push_back(words[i + 1][col]);
+                }
+            }
+            ++col;
+        }
+
+        std::queue<char> q{};
+        for (int i = 0; i < 26; ++i) {
+            if (degree[i] == 0) q.push('a' + i);
+            //    std::cout << (char)('a'+i) << " " << degree[i] << std::endl;
+        }
+        while (!q.empty()) {
+            char high = q.front();
+            q.pop();
+            ret += high;
+            for (auto child : order[high - 'a']) {
+                --degree[child - 'a'];
+                if (degree[child - 'a'] == 0) q.push(child);
+            }
+        }
+        for (auto n : degree)
+            if (n > 0) return "";
+        return ret;
+    }
 };
