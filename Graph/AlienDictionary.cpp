@@ -7,11 +7,15 @@
  * Date: 03/27/2020
  * Author: Wei Du
  */
+
+#include <string>
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
     string alienOrder(vector<string> &words) {
         std::vector<CH *> characters(26);
-        int counter{0};
         for (auto &w : words) {
             for (auto ch : w) {
                 characters[ch - 'a'] = new CH(ch);
