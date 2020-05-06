@@ -7,6 +7,10 @@
  * Date: 04/14/2020
  * Author: Wei Du
  */
+#include <queue>
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
     int kthSmallest(vector<vector<int>> &matrix, int k) {
@@ -27,7 +31,7 @@ public:
     }
 };
 
-class Solution {
+class Solution1 {
 public:
     int kthSmallest(vector<vector<int>> &matrix, int k) {
         if (matrix.empty() || matrix[0].empty()) return 0;
