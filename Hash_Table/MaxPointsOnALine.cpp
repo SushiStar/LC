@@ -4,6 +4,11 @@
  * Date: 03/31/2020
  * Author: Wei Du
  */
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <string>
+using namespace std;
 
 class Solution {
 public:
@@ -75,7 +80,7 @@ private:
 };
 
 // better solution;
-class Solution {
+class Solution1 {
 public:
     int maxPoints(vector<vector<int>>& points) {
         if (points.empty() || points[0].empty()) return 0;
