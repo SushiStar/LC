@@ -16,6 +16,8 @@
  * Author: Wei Du
  */
 #include <vector>
+using namespace std;
+
 class Solution {
 public:
     vector<Interval> insert(vector<Interval>& intervals, Interval newInterval) {

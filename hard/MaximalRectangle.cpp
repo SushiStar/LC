@@ -5,6 +5,8 @@
  * Date: Apr/8/2019
  * Author: Wei Du
  */
+#include <vector>
+using namespace std;
 
 class Solution {
 public:

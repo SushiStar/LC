@@ -7,6 +7,10 @@
  * Date: 04/17/2020
  * Author: Wei Du
  */
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
 class Solution {
 public:
     bool containsNearbyDuplicate(vector<int> &nums, int k) {
