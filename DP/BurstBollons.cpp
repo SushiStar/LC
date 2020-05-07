@@ -11,6 +11,7 @@
  * Author: Wei Du
  */
 #include <vector>
+using namespace std;
 
 class Solution {
 public:
@@ -18,9 +19,8 @@ public:
         if (nums.empty()) return 0;
         std::vector<int> inums;
         inums.push_back(1);
-        for (auto num : nums) { // burst number with 0
+        for (auto num : nums)  // burst number with 0
             if (num) inums.push_back(num);
-        }
         inums.push_back(1);
         int sz = inums.size();
         std::vector<std::vector<int>> dp(sz, std::vector<int>(sz, 0));
