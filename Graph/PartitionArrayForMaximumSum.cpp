@@ -6,6 +6,8 @@
  * Date: 03/27/2020
  * Author: Wei Du
  */
+#include <vector>
+using namespace std;
 
 // slow DFS
 class Solution {
@@ -30,7 +32,7 @@ private:
     }
 };
 
-class Solution {
+class Solution1 {
 public:
     int maxSumAfterPartitioning(vector<int>& A, int K) {
         // do a DP

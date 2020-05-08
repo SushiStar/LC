@@ -5,6 +5,9 @@
  * Date: 04/08/2020
  * Author: Wei Du
  */
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
     int minimumTotal(vector<vector<int>> &triangle) {
