@@ -2,6 +2,11 @@
  * Date: 04/14/2020
  * Author: Wei Du
  */
+#include <vector>
+#include <queue>
+
+using namespace std;
+
 class Solution {
 public:
     vector<vector<int>> getSkyline(vector<vector<int>> &buildings) {
