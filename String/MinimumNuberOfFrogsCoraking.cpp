@@ -28,6 +28,7 @@ public:
         std::vector<int> counter(6,0);
         //  0, 1, 2, 3, 4, 5
         // -1, 0, 1, 2, 3, 4
+        //  c, r, o, a, k,
         for (auto ch : croakOfFrogs) {
             int idx = getId(ch);
             if (idx >= 5) return -1;
