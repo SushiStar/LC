@@ -13,6 +13,9 @@
  *
  * Author: Wei Du
  */
+#include <vector>
+using namespace std;
+
 class Solution {
     int rob(vector<int> &nums) {
         if (nums.empty()) return 0;
@@ -32,7 +35,7 @@ class Solution {
     }
 };
 
-class Solution {
+class Solution1 {
 public:
     int rob(vector<int> &nums) {
         if (nums.size() < 3) {
