@@ -55,8 +55,7 @@ public:
         std::string ret;
         bool restart(true);
         while (!sett.empty()) {
-            if (restart) 
-                ret+=*(sett.begin());
+            if (restart) ret += *(sett.begin());
             std::string nxt{ret.substr(ret.size() - n + 1)};
             char i = '0';
             for (; i < endNum; ++i) {
@@ -76,3 +75,24 @@ public:
         return ret;
     }
 };
+
+string crackSafe(int n, int k) {
+    std::string ret = string(n, '0');
+    std::unordered_set<string> visited;
+    visited.insert(ret);
+
+    int end = std::pow(k, n);
+    for (int i = 0; i < end; i++) {
+        std::string nxt = ret.substr(ret.size() - n + 1);
+        for (int j = k - 1; j >= 0; j--) {
+            nxt.push_back(('0'+j));
+            if (!visited.count(nxt)) {
+                visited.insert(nxt);
+                ret += ('0'+j);
+                break;
+            }
+            nxt.pop_back();
+        }
+    }
+    return ret;
+}
