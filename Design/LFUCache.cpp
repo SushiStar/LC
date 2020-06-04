@@ -20,6 +20,8 @@
  */
 #include <unordered_map>
 #include <queue>
+#include <list>
+using namespace std;
 
 class LFUCache {
 public:
@@ -66,13 +68,6 @@ public:
     }
 
 private:
-    struct data;
-    struct dataCmp;
-
-    std::size_t time_stamp;
-    int volume;
-    std::unordered_map<int, data*> mapp;
-    std::priority_queue<data*, std::vector<data*>, dataCmp> pq;
     struct data {
         data(int key_, int value_, size_t stamp_) : key(key_), value(value_), freq(1), stamp(stamp_) {}
         int key;
@@ -87,6 +82,11 @@ private:
             return false;
         }
     };
+
+    std::size_t time_stamp;
+    int volume;
+    std::unordered_map<int, data*> mapp;
+    std::priority_queue<data*, std::vector<data*>, dataCmp> pq;
 };
 
 /**
@@ -97,7 +97,7 @@ private:
  */
 
 
-class LFUCache {
+class LFUCache1 {
     int cap;
     int size;
     int minFreq;
@@ -105,7 +105,7 @@ class LFUCache {
     unordered_map<int, list<int>::iterator> mIter; //key to list iterator;
     unordered_map<int, list<int>>  fm;  //freq to key list;
 public:
-    LFUCache(int capacity) {
+    LFUCache1(int capacity) {
         cap=capacity;
         size=0;
     }
