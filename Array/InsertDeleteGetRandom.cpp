@@ -9,6 +9,13 @@
  * Date: 04/23/2020
  * Author: Wei Du
  */
+#include <cstdlib>
+#include <ctime>
+#include <vector>
+#include <unordered_map>
+
+using namespace std;
+
 class RandomizedSet {
 public:
     /** Initialize your data structure here. */
