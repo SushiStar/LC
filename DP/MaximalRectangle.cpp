@@ -10,40 +10,38 @@ using namespace std;
 
 class Solution {
 public:
-    int maximalRectangle(std::vector<std::vector<char>> &matrix) {
+    int maximalRectangle(vector<vector<char>> &matrix) {
         if (matrix.empty() || matrix[0].empty()) return 0;
-        int numRow(matrix.size());
-        int numCol(matrix[0].size());
-        std::vector<int> height(numCol,0);
-        std::vector<int> leftBoundary(numCol,0);
-        std::vector<int> rightBoundary(numCol , numCol- 1);
-        int result{0};
-        for (int i = 0; i < numRow; ++i) {
-            int currLeftBoundary(0);
-            int currRightBoundary(numCol - 1);
-            for (int j = numCol - 1; j > -1; --j) {
+        int row(matrix.size()), col(matrix[0].size());
+        int ret{0};
+        vector<int> height(col, 0);
+        vector<int> leftBound(col, -1);
+        vector<int> rightBound(col, col);
+        int currLeftBound(-1), currRightBound(col);
+        for (int i = 0; i < row; ++i) {
+            currLeftBound = -1;
+            currRightBound = col;
+            for (int j = 0; j < col; ++j) {
                 if (matrix[i][j] == '1') {
                     ++height[j];
-                    rightBoundary[j] =
-                        std::min(rightBoundary[j], currRightBoundary);
-                } else {
+                    leftBound[j] = std::max(leftBound[j], currLeftBound);
+                } else { // invalid
+                    currLeftBound = j;
+                    leftBound[j] = -1;
                     height[j] = 0;
-                    currRightBoundary = j - 1;
-                    rightBoundary[j] = numCol - 1;
                 }
             }
-
-            for (int j = 0; j < numCol; ++j){
+            for (int j = col - 1; j > -1; --j) {
                 if (matrix[i][j] == '1') {
-                    leftBoundary[j] = std::max(leftBoundary[j], currLeftBoundary);
+                    rightBound[j] = std::min(rightBound[j], currRightBound);
+                    ret = std::max(ret, (rightBound[j] - leftBound[j] - 1) *
+                                            height[j]);
                 } else {
-                    leftBoundary[j] = 0;
-                    currLeftBoundary = j+1;
-                    continue;
+                    currRightBound = j;
+                    rightBound[j] = col;
                 }
-                result = std::max(result, (rightBoundary[j] - leftBoundary[j] +1) * height[j]);
             }
         }
-        return result;
+        return ret;
     }
 };
