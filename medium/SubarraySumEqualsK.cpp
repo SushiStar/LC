@@ -6,6 +6,9 @@
  * Author: Wei Du
  */
 #include <vector>
+#include <map>
+#include <unordered_map>
+using namespace std;
 
 class Solution {
 public:
@@ -28,7 +31,7 @@ public:
 
  //say i and j is at a difference of k i.e. if sum[i] − sum[j] = k;
  //the sum of elements lying between indices i and j is k.
-class Solution {
+class Solution1 {
 public:
     int subarraySum(vector<int>& nums, int k) {
         int cum = 0;        // cumulated sum
@@ -42,5 +45,25 @@ public:
             rec[cum]++;
         }
         return cnt;
+    }
+};
+
+
+class Solution2 {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        int ret(0);
+        unordered_map<int, int> counter{{0, 1}};
+        ++counter[nums[0]];
+        if (nums[0] == k) ++ret;
+        for (int i = 1; i < nums.size(); ++i) {
+            nums[i] += nums[i-1];
+            int counterPart = nums[i]-k;
+            if (counter.find(counterPart) != counter.end()) {
+                ret += counter[counterPart];
+            }
+            ++counter[nums[i]];
+        }
+        return ret;
     }
 };
