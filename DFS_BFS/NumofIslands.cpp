@@ -7,6 +7,10 @@
  * Date: 03/24/2020
  * Author: Wei Du
  */
+#include <vector>
+#include <queue>
+#include <stack>
+using namespace std;
 
 class Solution {
 public:
@@ -53,7 +57,7 @@ public:
     }
 };
 
-class Solution {
+class Solution1 {
 public:
     int numIslands(vector<vector<char>>& grid) {
         if (grid.empty() || grid[0].empty()) return 0;
@@ -93,3 +97,5 @@ public:
         return result;
     }
 };
+
+

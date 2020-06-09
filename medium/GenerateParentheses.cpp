@@ -5,6 +5,9 @@
  *
  * Date: 02/17/2020
  */
+#include <vector>
+#include <string>
+using namespace std;
 
 class Solution {
 public:
@@ -49,7 +52,7 @@ public:
     }
 };
 
-class Solution {
+class Solution2 {
 public:
     std::vector<std::string> generateParenthesis(int n) {
         std::vector<std::string> rlt;
