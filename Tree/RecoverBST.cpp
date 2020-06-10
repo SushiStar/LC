@@ -2,17 +2,20 @@
  * Two elements of a binary search tree are swapped by mistake.
  * Recover the tree without changing the structure.
  *
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- *
  * Date: 03/14/2020
  * Author: Wei Du
  */
+#include <algorithm>
+#include <vector>
+#include <stack>
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode *left;
+    TreeNode *right;
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+};
 
 class Solution {
 public:
@@ -47,7 +50,7 @@ public:
     }
 };
 
-class Solution {
+class Solution0 {
 public:
     void recoverTree(TreeNode *root) {
         checkSubTree(root);
