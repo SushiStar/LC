@@ -12,6 +12,17 @@
  * Author: Wei Du
  * Date: 02/18/2020
  */
+#include <queue>
+#include <vector>
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
 
 class Solution {
 public:
@@ -43,30 +54,31 @@ public:
     }
 };
 
-class Solution {
+class Solution0 {
 private:
     struct cmp {
-        bool operator()(ListNode* node1, ListNode* node2){
+        bool operator()(ListNode *node1, ListNode *node2) {
             // greater than , ordered from smaller to greater
             return node1->val > node2->val;
         }
     };
+
 public:
     ListNode *mergeKLists(std::vector<ListNode *> &lists) {
-        std::priority_queue<ListNode*, std::vector<ListNode*>, cmp> pq;
-        for (int i = 0; i , lists.size(); ++i) {
+        std::priority_queue<ListNode *, std::vector<ListNode *>, cmp> pq;
+        for (int i = 0; i < lists.size(); ++i) {
             if (lists[i]) pq.push(lists[i]);
         }
         if (pq.empty()) return nullptr;
-        ListNode* head(pq.top());
-        ListNode* tail(head);
+        ListNode *head(pq.top());
+        ListNode *tail(head);
         pq.pop();
-        
+
         if (tail->next) pq.push(tail->next);
 
         while (!pq.empty()) {
             tail->next = pq.top();
-            tail = tail->next(); 
+            tail = tail->next;
             pq.pop();
             if (tail->next) pq.push(tail->next);
         }
@@ -74,12 +86,12 @@ public:
     }
 };
 
-class Solution {
+class Solution1 {
 public:
-    ListNode* mergeKLists(vector<ListNode*>& lists) {
+    ListNode *mergeKLists(vector<ListNode *> &lists) {
         if (lists.empty()) return nullptr;
-        std::priority_queue<int, std::vector<ListNode*>, cmp> pq;
-        for (int i = 0; i< lists.size(); ++i) {
+        std::priority_queue<ListNode *, std::vector<ListNode *>, cmp> pq;
+        for (int i = 0; i < lists.size(); ++i) {
             while (lists[i]) {
                 pq.push(lists[i]);
                 lists[i] = lists[i]->next;
@@ -97,10 +109,11 @@ public:
         tail->next = nullptr;
         return head;
     }
+
 private:
     struct cmp {
-        bool operator()(ListNode* ptr1, ListNode* ptr2) {
+        bool operator()(const ListNode *ptr1, const ListNode *ptr2) const {
             return ptr1->val > ptr2->val;
         }
-    }; 
+    };
 };

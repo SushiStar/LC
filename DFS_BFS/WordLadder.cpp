@@ -14,6 +14,12 @@
  * Date: 03/25/2020
  * Author: Wei Du
  */
+#include <string>
+#include <queue>
+#include <unordered_set>
+#include <unordered_map>
+using namespace std;
+
 // A*
 class Solution {
 private:
@@ -82,29 +88,29 @@ public:
 };
 
 // DFS
-class Solution {
+class Solution0 {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
         if (wordList.empty()) return 0;
         // first half, later half
         table.resize(wordList.size()+1, std::vector<int>(wordList.size()+1, -1));
         mp[beginWord] = 0;
-        for (int i= 0; i < wordList.size(); ++i){ 
+        for (int i= 0; i < wordList.size(); ++i){
             mp[wordList[i]] = i+1;
         }
-        
+
         auto result = getTransform(beginWord, endWord, wordList)+1;
         return result > INT_MAX/2 ? 0 : result;
     }
 private:
     std::vector<std::vector<int>> table;
     std::unordered_map<std::string, int> mp;
-    
+
     int getTransform(const std::string& beginWord, const std::string& endWord,
                             std::vector<std::string>& wordList) {
         int result(INT_MAX/2);
         std::string replace("");
-        for (int i = 0; i < wordList.size(); ++i) { 
+        for (int i = 0; i < wordList.size(); ++i) {
             int diff{diffWord(beginWord,wordList[i])};
             if (diff == 1) {
                 if(endWord.compare(wordList[i]) == 0)
@@ -135,11 +141,11 @@ private:
 };
 
 // BFS
-class Solution {
+class Solution1 {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
         std::unordered_set<std::string> ori(wordList.begin(), wordList.end());
-        
+
         std::vector<std::string> buffer[2];
         int result{1};
         int idx0 = 0;
