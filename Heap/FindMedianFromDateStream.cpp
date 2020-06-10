@@ -12,6 +12,9 @@
  *  Date: 04/13/2020
  *  Author: Wei Du
  */
+
+#include <queue>
+
 class MedianFinder {
 public:
     /** initialize your data structure here. */
