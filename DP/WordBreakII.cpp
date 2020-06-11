@@ -16,86 +16,7 @@
 #include <vector>
 using namespace std;
 
-// time limit exceeded
-class Solution {
-public:
-    vector<string> wordBreak(string s, vector<string> &wordDict) {
-        maxLen = 0;
-        for (const auto &str : wordDict) {
-            maxLen = std::max(maxLen, (int)str.size());
-            exist.insert(str);
-        }
-        std::vector<std::string> rlt{};
-        wordBreak(s, 0, rlt);
-        return rlt;
-    }
-
-private:
-    int maxLen;
-    std::unordered_set<std::string> exist;
-    void wordBreak(std::string s, int start, std::vector<std::string> &rlt) {
-        if (start >= s.size()) {
-            rlt.push_back(s);
-            return;
-        }
-        int end = std::min((int)s.size() - start, maxLen) + 1;
-        for (int i = 1; i < end; ++i) {
-            if (exist.find(s.substr(start, i)) != exist.end()) {
-                std::string newStr(s);
-                if (start + i < s.size()) {
-                    newStr.insert(start + i, 1, ' ');
-                }
-                wordBreak(newStr, start + i + 1, rlt);
-            }
-        }
-    }
-};
-
-// time limit exceeded
-class Solution1 {
-public:
-    vector<string> wordBreak(string s, vector<string> &wordDict) {
-        std::vector<std::string> rlt{};
-        int maxL{0};
-        for (const auto &w : wordDict)
-            maxL = std::max(maxL, (int)w.size());
-        // BFS segmentation
-        std::unordered_set<std::string> sett(wordDict.begin(), wordDict.end());
-        std::unordered_map<int, std::vector<std::string>> mp{};
-        std::deque<std::string> dq{""};
-        std::deque<int> nxt{0};
-
-        // BFS compose
-        while (!nxt.empty()) {
-            const std::string buffer{dq.front()};
-            const int thisNxt{nxt.front()};
-            dq.pop_front();
-            nxt.pop_front();
-            if (mp.find(thisNxt) == mp.end()) {
-                for (int i = 1; i <= maxL; ++i) {
-                    if (sett.find(s.substr(thisNxt, i)) != sett.end()) {
-                        mp[thisNxt].push_back(s.substr(thisNxt, i));
-                    }
-                }
-            }
-            for (const auto &w : mp[thisNxt]) {
-                if (thisNxt + w.size() >= s.size()) {
-                    rlt.push_back(std::string(buffer + ' ' + w));
-                    continue;
-                }
-                if (buffer.size() > 0) {
-                    dq.push_back(std::string(buffer + ' ' + w));
-                } else {
-                    dq.push_back(std::string(w));
-                }
-                nxt.push_back(thisNxt + w.size());
-            }
-        }
-        return rlt;
-    }
-};
-
-class Solution2 {
+class Solution0 {
 private:
     unordered_map<string, vector<string>> m;
 
@@ -127,5 +48,36 @@ public:
         }
         m[s] = result; // memorize
         return result;
+    }
+};
+
+class Solution {
+public:
+    vector<string> wordBreak(string s, vector<string>& wordDict) {
+        if (s.empty() || wordDict.empty()) return {};
+        target = s;
+        sett.insert(wordDict.begin(), wordDict.end());
+        DoTheThing(0);
+        return mapp[0];
+    }
+private:
+    std::string target;
+    std::unordered_set<std::string> sett;
+    std::unordered_map<int, std::vector<std::string>>mapp;
+    void DoTheThing(int start) {
+        if (start >= target.size() || mapp.find(start) != mapp.end()) return;
+        for (int i = start; i < target.size(); ++i) {
+            auto segment = target.substr(start, i-start+1);
+            if (sett.find(segment) == sett.end())  // invalid
+                continue;
+            DoTheThing(i+1);
+            if (i+1 == target.size()) {
+                mapp[start].push_back(segment);
+                return;
+            }
+            for (auto str : mapp[i+1]) {
+                mapp[start].push_back(segment+' '+str);
+            }
+        }
     }
 };
