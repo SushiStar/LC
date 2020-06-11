@@ -10,6 +10,11 @@
  * Date: 04/08/2020
  * Author: Wei Du
  */
+#include <string>
+#include <vector>
+#include <bitset>
+using namespace std;
+
 class Solution {
 public:
     bool wordBreak(string s, vector<string> &wordDict) {
@@ -35,6 +40,7 @@ public:
         return false;
     }
 };
+
 class Solution {
 public:
     bool wordBreak(string s, vector<string> &wordDict) {
@@ -65,15 +71,15 @@ public:
 class Solution {
 public:
     bool wordBreak(std::string s, std::vector<std::string> &wordDict) {
-        std::vector<bool> dp(s.size() + 1, false);
-        dp[0] = true;
+		std::bitset<1000> dp;
+        dp[0] = 1;
         for (int i = 1; i < dp.size(); ++i) {
             if (dp[i - 1]) {
                 for (const auto &w : wordDict)
                     if (s.substr(i - 1, w.size()) == w)
-                        dp[i + w.size() - 1] = true;
+                        dp[i + w.size() - 1] = 1;
             }
         }
-        return dp.back();
+        return dp[s.size()]==1;
     }
 };
