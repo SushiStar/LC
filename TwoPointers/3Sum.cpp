@@ -6,11 +6,13 @@
  * Similar to 2sum method, fix one and find the rest two(sort and find sum of 2
  * ends). No need to look back because that situation is already consisdered.
  *
- * Date: 02/16/2020
- *
+ * Date: 06/11/2020
  * Autor: Wei Du
  *
  */
+
+#include <vector>
+using namespace std;
 
 class Solution {
 public:
@@ -20,28 +22,20 @@ public:
 
         if (nums.size() < 3) return res;
         for (int i = 0; i < nums.size() - 2; ++i) {
-            int goal = -nums.at(i);
-            int l(i + 1);
-            int r(nums.size() - 1);
+            int goal(-nums[i]), l(i + 1), r(nums.size() - 1);
             while (l < r) {
-                if (nums.at(l) + nums.at(r) == goal) {
-                    vector<int> temp{nums.at(i), nums.at(l), nums.at(r)};
-                    res.push_back(temp);
-
-                    while (l < r && temp.at(2) == nums.at(r))
-                        --r;
-                    while (l < r && temp.at(1) == nums.at(l))
-                        ++l;
-
+                if (nums[l] + nums[r] == goal) {
+					int a(nums[i]), b(nums[l]), c(nums[r]);
+                    res.push_back({a, b, c});
+                    while (l < r && b == nums[l]) ++l;
+                    while (l < r && c == nums[r]) --r;
                 } else if (nums.at(l) + nums.at(r) > goal) {
                     --r;
                 } else { // nums.at(l) + nums.at(r) < goal
                     ++l;
                 }
             }
-            // take the first of the repeated number, it has a larger solution
-            // set than later repeated numbers
-            while (i < nums.size() - 2 && nums.at(i) == nums.at(i + 1))
+            while (i < nums.size() - 1 && nums[i] == nums[i + 1])
                 ++i;
         }
         return res;
