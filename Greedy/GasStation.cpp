@@ -16,6 +16,8 @@
  * Author: Wei Du
  */
 #include <vector>
+using namespace std;
+
 class Solution {
 public:
     int canCompleteCircuit(vector<int> &gas, vector<int> &cost) {
@@ -38,7 +40,7 @@ public:
     }
 };
 
-class Solution {
+class Solution1 {
 public:
     int canCompleteCircuit(vector<int> &gas, vector<int> &cost) {
         int len(gas.size());
