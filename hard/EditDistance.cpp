@@ -11,6 +11,10 @@
  *
  * Author: Wei Du
  */
+#include <string>
+#include <vector>
+using namespace std;
+
 class Solution {
 public:
     int minDisstance(string word1, string word2) {
