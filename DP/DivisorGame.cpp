@@ -8,9 +8,11 @@
  * Return True if and only if Alice wins the game, assuming both players
  * play optimally.
  *
- * Date: 04/10/20202
+ * Date: 04/10/2020
  * Author: Wei Du
  */
+#include <vector>
+using namespace std;
 class Solution {
 public:
     bool divisorGame(int N) {
