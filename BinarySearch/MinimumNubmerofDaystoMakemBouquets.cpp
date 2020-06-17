@@ -14,7 +14,29 @@ using namespace std;
 
 class Solution {
 public:
-    int minDays(vector<int> &bloomDay, int m, int k) {}
+	int minDays(vector<int> &bloomDay, int m, int k) {
+		int n(bloomDay.size()), left{1}, right{(int)1e9};
+		int mid = left + (right - left)/2;
+		if (m*k > n) return -1;
+		while (left < right) {
+			int flow(0), bouq(0);
+			for (int j = 0; j < n; ++j) {
+				if (bloomDay[j] > mid) {
+					flow = 0;
+				} else if (++flow == k) {
+					++bouq;
+					flow = 0;
+				}
+			}
+			if (bouq < m) {
+				left = mid+1;
+			} else {
+				right = mid;
+			}
+			mid = (right-left)/2 + left;
+		}
+		return left;
+	}
 };
 
 /*
