@@ -6,6 +6,10 @@
  * Date: 03/27/2020
  * Author: Wei Du
  */
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
 class Solution {
 public:
     vector<double> calcEquation(vector<vector<string>> &equations,
