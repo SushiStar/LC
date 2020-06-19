@@ -14,6 +14,10 @@
  * Date: 04/14/2020
  * Author: Wei Du
  */
+#include <vector>
+#include <unordered_map>
+using namespace std;
+
 class Solution {
 public:
     int minSwapsCouples(vector<int> &row) {
