@@ -11,10 +11,11 @@
  * Author: Wei Du
  */
 
-#include <vector>
+#include <algorithm>
 #include <deque>
 #include <unordered_set>
 #include <utility>
+#include <vector>
 using namespace std;
 // This is the robot's control interface.
 // You should not implement it, or speculate about its implementation
@@ -33,63 +34,143 @@ public:
     // Clean the current cell.
     void clean();
 };
-
 class Solution {
-	using ii = std::pair<int,int>;
+    struct state {
+        int x, y;
+        bool valid;
+    };
+
 public:
-	void cleanRoom(Robot &robot) {
-		agent = &robot;
-		theta = 0;
-		curr.first = curr.second = 500;
-		clean();
-	}
+    void cleanRoom(Robot &robot) {
+        agent = &robot;
+        theta = 0;
+        mapp[150][150] = new state{150, 150, true};
+        curr = mapp[150][150];
+        clean();
+    }
+
 private:
-	Robot* agent;
-	int theta;	//0, 1 , 2, -1, -2
-	ii curr, target;
-	std::vector<ii> plan;
-	// 0 unvisited; 1 visited; -1 obs;
-	int mapp[1000][1000];
-	std::unordered_set<ii> sett;
+    Robot *agent;
+    int theta; // 0, 1 , 2, -1, -2
+    state *curr;
+    std::vector<state*> plan;
+    state *mapp[300][300];
+    state *visited[300][300]; // nullptr unvisited, otherwise visited
+    void clean() {
+        // initialize the start cell;
+        agent->clean();
+        while (findNextGoal()) {
+            executePlan();
+        }
+    }
 
-	void clean() {
-		while (findNextGoal())
-			executePlan();
-	}
+    bool gotoCell(state *nxt) {
+        int endDir;
+        if (nxt->x == curr->x)
+            endDir = nxt->y > curr->y ? 1 : -1;
+        else
+            endDir = nxt->x > curr->x ? 2 : 0;
+        while (endDir > theta) {
+            ++theta;
+            agent->turnRight();
+        }
+        while (endDir < theta) {
+            --theta;
+            agent->turnLeft();
+        }
+        bool flag = agent->move();
+        curr = flag ? nxt : curr;
+        return flag;
+    }
 
-	bool gotoCell(ii &nxt) {
-		bool success;
-		int turnTimes;
-		if (nxt.first == curr.first) {
-			// same col
-			if (nxt.second > curr.second) {	// go right
-				turnTimes =
-			} else {	// got left
+    // BFS
+    // find the first unvisited cell, go there
+    // return true if there exists an unvisited cell, false otherwise
+    bool findNextGoal() {
+        for (int i = 0; i < 300; ++i) {
+            std::fill(visited[i], visited[i] + 300, nullptr);
+        }
+        std::deque<state*> dq{curr};
+        visited[curr->x][curr->y] = curr;
+        while (!dq.empty()) {
+            auto parent = dq.front();
+            dq.pop_front();
+            if (!visited[parent->x + 1][parent->y]) {
+                state *tmp = mapp[parent->x + 1][parent->y];
+                if (!tmp) { // existing
+                    state *tmp = new state{parent->x + 1, parent->y, true};
+                    mapp[parent->x + 1][parent->y] = tmp;
+                    visited[tmp->x][tmp->y] = parent;
+                    traceBackNewState(tmp);
+					return true;
+                } else if (tmp->valid && !visited[tmp->x][tmp->y]) {
+                    dq.push_back(tmp);
+                    visited[tmp->x][tmp->y] = parent;
+                }
+            }
+            if (!visited[parent->x - 1][parent->y]) {
+                state *tmp = mapp[parent->x - 1][parent->y];
+                if (!tmp) { // existing
+                    state *tmp = new state{parent->x - 1, parent->y, true};
+                    mapp[parent->x - 1][parent->y] = tmp;
+                    visited[tmp->x][tmp->y] = parent;
+                    traceBackNewState(tmp);
+					return true;
+                } else if (tmp->valid && !visited[tmp->x][tmp->y]) {
+                    dq.push_back(tmp);
+                    visited[tmp->x][tmp->y] = parent;
+                }
+            }
+            if (!visited[parent->x][parent->y + 1]) {
+                state *tmp = mapp[parent->x][parent->y + 1];
+                if (!tmp) { // existing
+                    state *tmp = new state{parent->x, parent->y + 1, true};
+                    mapp[parent->x][parent->y + 1] = tmp;
+                    visited[tmp->x][tmp->y] = parent;
+                    traceBackNewState(tmp);
+					return true;
+                } else if (tmp->valid && !visited[tmp->x][tmp->y]) {
+                    dq.push_back(tmp);
+                    visited[tmp->x][tmp->y] = parent;
+                }
+            }
+            if (!visited[parent->x][parent->y - 1]) {
+                state *tmp = mapp[parent->x][parent->y - 1];
+                if (!tmp) { // existing
+                    state *tmp = new state{parent->x, parent->y - 1, true};
+                    mapp[parent->x][parent->y - 1] = tmp;
+                    visited[tmp->x][tmp->y] = parent;
+                    traceBackNewState(tmp);
+					return true;
+                } else if (tmp->valid && !visited[tmp->x][tmp->y]) {
+                    dq.push_back(tmp);
+                    visited[tmp->x][tmp->y] = parent;
+                }
+            }
+        }
+        return false;
+    }
 
-			}
-		} else {
-			// same row
-			if (nxt.first> curr.first) {	// go down
+    void traceBackNewState(state *tmp) {
+        while (visited[tmp->x][tmp->y] != tmp) {
+            plan.push_back(tmp);
+            tmp = visited[tmp->x][tmp->y];
+        }
+        plan.push_back(tmp);
+    }
 
-			} else {	// go up
-
-			}
-		}
-		mapp[curr.first][curr.second] = success ? 1 : -1;
-		return success;
-	}
-
-	bool findNextGoal() {
-
-	}
-
-	void executePlan() {
-		for (int i = 1; i < plan.size(); ++i) {
-			if (!gotoCell(plan[i])) {
-				mapp[plan[i].first][plan[i].second] = -1;
-				break;
-			}
-		}
-		plan.clear();
-	}
+    void executePlan() {
+        std::reverse(plan.begin(), plan.end());
+        for (int i = 1; i < plan.size(); ++i) {
+            if (!gotoCell(plan[i])) {
+				plan[i]->valid = false;
+                plan.clear();
+                return;
+            }
+        }
+        agent->clean();
+        plan.clear();
+    }
 };
+
+
