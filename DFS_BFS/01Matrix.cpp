@@ -27,12 +27,13 @@ public:
                 if (data[i][j]) data[i][j] = getDistance(i, j);
         return data;
     }
+
 private:
     // bfs find the nearest 0 cell
     int getDistance(int r, int c) {
         visited.reset();
         int ret{1};
-        vector<pair<int, int>> q{{r,c}};
+        vector<pair<int, int>> q{{r, c}};
         int idx1{0}, idx2{1};
         visited.set(getIdx(r, c));
         while (!q.empty()) {
