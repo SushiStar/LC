@@ -10,6 +10,8 @@
  * Date: 04/16/2020
  * Author: Wei Du
  */
+#include <vector>
+using namespace std;
 
 class Solution {
 public:
