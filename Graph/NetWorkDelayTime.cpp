@@ -10,6 +10,9 @@
  * Date: 04/15/2020
  * Author: Wei Du
  */
+#include <vector>
+#include <unordered_set>
+using namespace std;
 
 class Solution {
 public:
