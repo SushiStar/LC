@@ -6,6 +6,10 @@
  * Date: 04/22/2020
  * Author: Wei Du
  */
+#include <vector>
+#include <deque>
+using namespace std;
+
 class Solution {
 public:
     int nthUglyNumber(int n) {
@@ -32,7 +36,7 @@ public:
     }
 };
 
-class Solution {
+class Solution2 {
 public:
     int nthUglyNumber(int n) {
         vector<int> res{1};
