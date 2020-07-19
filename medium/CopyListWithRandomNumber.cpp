@@ -4,27 +4,12 @@
  *
  * Return a deep copy of the list.
  *
- * class Node {
- * public:
- *      int val;
- *      Node* next;
- *      Node* random;
- *
- *      Node() {}
- *
- *      Node(int _val, Node* _next, Node* _random) {
- *          val = _val;
- *          next = _next;
- *          random = _random;
- *      }
- * };
  *
  * Date: May/12/2019
  * Author: Wei Du
  *
  */
-#include <unordered_map>
-#include <vector>
+#include "../common.h"
 
 class Solution {
 public:

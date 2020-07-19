@@ -14,7 +14,7 @@
  * Date: 02/23/2020
  * Author: Wei Du
  */
-
+#include "../common.h"
 class Solution {
 public:
     std::vector<std::vector<int>> combinationSum(std::vector<int>& candidates, int target) {
