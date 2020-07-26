@@ -7,21 +7,22 @@
  * Date: 04/17/2020
  * Author: Wei Du
  */
-#include <vector>
+
 #include <unordered_map>
+#include <vector>
 using namespace std;
 
 class Solution {
-public:
-    bool containsNearbyDuplicate(vector<int> &nums, int k) {
-	std::unordered_map<int, int> idx;
-	for (int i = 0; i < nums.size(); ++i) {
-	    if (idx.find(nums[i]) == idx.end() || i - idx[nums[i]] > k) {
-		idx[nums[i]] = i;
-	    } else {
-		return true;
-	    }
-	}
-	return false;
+ public:
+  bool containsNearbyDuplicate(vector<int> &nums, int k) {
+    std::unordered_map<int, int> idx;
+    for (int i = 0; i < nums.size(); ++i) {
+      if (idx.find(nums[i]) == idx.end() || i - idx[nums[i]] > k) {
+        idx[nums[i]] = i;
+      } else {
+        return true;
+      }
     }
+    return false;
+  }
 };
