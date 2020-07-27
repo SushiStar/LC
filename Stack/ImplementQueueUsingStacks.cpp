@@ -16,37 +16,37 @@
 using namespace std;
 
 class MyQueue {
-    stack<int> data1, data2;
-    void sortData() {
-        if (data2.empty()) {
-            while (!data1.empty()) {
-                data2.push(data1.top());
-                data1.pop();
-            }
-        }
+  stack<int> data1, data2;
+  void sortData() {
+    if (data2.empty()) {
+      while (!data1.empty()) {
+        data2.push(data1.top());
+        data1.pop();
+      }
     }
+  }
 
-public:
-    /** Initialize your data structure here. */
-    MyQueue() {}
+ public:
+  /** Initialize your data structure here. */
+  MyQueue() {}
 
-    /** Push element x to the back of queue. */
-    void push(int x) { data1.push(x); }
+  /** Push element x to the back of queue. */
+  void push(int x) { data1.push(x); }
 
-    /** Removes the element from in front of queue and returns that element. */
-    int pop() {
-		sortData();
-        int ret{data2.top()};
-        data2.pop();
-        return ret;
-    }
+  /** Removes the element from in front of queue and returns that element. */
+  int pop() {
+    sortData();
+    int ret{data2.top()};
+    data2.pop();
+    return ret;
+  }
 
-    /** Get the front element. */
-    int peek() {
-		sortData();
-        return data2.top();
-    }
+  /** Get the front element. */
+  int peek() {
+    sortData();
+    return data2.top();
+  }
 
-    /** Returns whether the queue is empty. */
-    bool empty() { return data1.empty() && data2.empty(); }
+  /** Returns whether the queue is empty. */
+  bool empty() { return data1.empty() && data2.empty(); }
 };

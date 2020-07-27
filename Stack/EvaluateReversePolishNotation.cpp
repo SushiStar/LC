@@ -12,37 +12,38 @@
  * Date: 04/23/2020
  * Author: Wei Du
  */
+#include "../common.h"
 
 class Solution {
-public:
-    int evalRPN(vector<string> &tokens) {
-        std::stack<int> stk;
-        int ret{INT_MAX};
-        for (auto tk : tokens) {
-            if (tk == "+" || tk == "*" || tk == "-" || tk == "/") {
-                ret = stk.top();
-                stk.pop();
-                int f = stk.top();
-                stk.pop();
-                switch (tk[0]) {
-                case '+':
-                    ret = f + ret;
-                    break;
-                case '-':
-                    ret = f - ret;
-                    break;
-                case '*':
-                    ret = f * ret;
-                    break;
-                case '/':
-                    ret = f / ret;
-                    break;
-                }
-                stk.push(ret);
-            } else {
-                stk.push(std::stoi(tk));
-            }
+ public:
+  int evalRPN(vector<string> &tokens) {
+    std::stack<int> stk;
+    int ret{INT_MAX};
+    for (auto tk : tokens) {
+      if (tk == "+" || tk == "*" || tk == "-" || tk == "/") {
+        ret = stk.top();
+        stk.pop();
+        int f = stk.top();
+        stk.pop();
+        switch (tk[0]) {
+          case '+':
+            ret = f + ret;
+            break;
+          case '-':
+            ret = f - ret;
+            break;
+          case '*':
+            ret = f * ret;
+            break;
+          case '/':
+            ret = f / ret;
+            break;
         }
-        return ret == INT_MAX ? stk.top() : ret;
+        stk.push(ret);
+      } else {
+        stk.push(std::stoi(tk));
+      }
     }
+    return ret == INT_MAX ? stk.top() : ret;
+  }
 };
