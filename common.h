@@ -4,6 +4,7 @@
 #include <deque>
 #include <iostream>
 #include <iterator>
+#include <list>
 #include <map>
 #include <numeric>
 #include <queue>
