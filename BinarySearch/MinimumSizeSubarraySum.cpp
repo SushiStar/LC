@@ -10,24 +10,24 @@
 using namespace std;
 
 class Solution {
-public:
-    int minSubArrayLen(int s, vector<int> &nums) {
-        if (nums.empty()) return 0;
-        int ret{INT_MAX};
-        int left(0), right(0);
-        int sum(nums[0]);
-        while (right < nums.size()) {
-            if (sum >= s) {
-                ret = std::min(ret, right - left + 1);
-                sum -= nums[left];
-                ++left;
-            } else {
-                ++right;
-                if (right < nums.size()) {
-                    sum += nums[right];
-                }
-            }
+ public:
+  int minSubArrayLen(int s, vector<int> &nums) {
+    if (nums.empty()) return 0;
+    int ret{INT_MAX};
+    int left(0), right(0);
+    int sum(nums[0]);
+    while (right < nums.size()) {
+      if (sum >= s) {
+        ret = std::min(ret, right - left + 1);
+        sum -= nums[left];
+        ++left;
+      } else {
+        ++right;
+        if (right < nums.size()) {
+          sum += nums[right];
         }
-        return ret == INT_MAX ? 0 : ret;
+      }
     }
+    return ret == INT_MAX ? 0 : ret;
+  }
 };
