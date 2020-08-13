@@ -19,75 +19,30 @@
 using namespace std;
 
 class Solution {
-public:
-    vector<string> findAllConcatenatedWordsInADict(vector<string> &words) {
-        std::vector<std::string> ret{};
-        if (words.empty()) return ret;
-
-        for (const auto &str : words) {
-            if (!str.empty()) state[str] = 1;
-        }
-
-        for (auto &str : words) {
-            if (canBecomposedOf(str, str)) ret.push_back(str);
-        }
-        return ret;
-    }
-
 private:
-    std::unordered_map<std::string, int> state;
-
-    bool canBecomposedOf(const std::string &str, const std::string &target) {
-        if (str != target && state[str] != 0) {
-            return state[str] > 0;
-        }
-
-        for (int i = 1; i < str.size(); ++i) {
-            std::string str1 = str.substr(0, i);
-            if (state[str1] > 0) {
-                std::string str2 = str.substr(i);
-                if (canBecomposedOf(str2, target)) {
-                    state[str] = 1;
-                    return true;
-                }
-            }
-        }
-        if (str != target) state[str] = -1;
-        return false;
+  std::string curr_target;
+  std::unordered_set<std::string> uset;
+  bool canBecomposedOf(const std::string &str) {
+    if (str != curr_target && uset.find(str) != uset.end()) return true;
+    for (int i = 1; i < str.size(); ++i) {
+      if (uset.find(str.substr(0, i)) == uset.end()) continue;
+      if (canBecomposedOf(str.substr(i))) {
+        uset.insert(str);
+        return true;
+      }
     }
-};
+    return false;
+  }
 
-class Solution1 {
 public:
-    vector<string> findAllConcatenatedWordsInADict(vector<string> &words) {
-        std::vector<std::string> ret{};
-        if (words.empty()) return ret;
-
-        sett.insert(words.begin(), words.end());
-
-        for (auto &str : words) {
-            if (canBecomposedOf(str, str)) ret.push_back(str);
-        }
-        return ret;
+  vector<string> findAllConcatenatedWordsInADict(vector<string> &words) {
+    std::vector<std::string> ret{};
+    if (words.empty()) return ret;
+    uset.insert(words.begin(), words.end());
+    for (auto &str : words) {
+      curr_target = str;
+      if (canBecomposedOf(str)) ret.push_back(str);
     }
-
-private:
-    std::unordered_set<std::string> sett;
-    bool canBecomposedOf(const std::string &str, const std::string &target) {
-        if (str != target && sett.find(str) != sett.end()) {
-            return true;
-        }
-
-        for (int i = 1; i < str.size(); ++i) {
-            std::string str1 = str.substr(0, i);
-            if (sett.find(str1) != sett.end()) {
-                std::string str2 = str.substr(i);
-                if (canBecomposedOf(str2, target)) {
-                    sett.insert(str);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    return ret;
+  }
 };
