@@ -2,3 +2,4 @@
 *.swp
 *.ccls-cache
 tags
+cmake-build-debug
