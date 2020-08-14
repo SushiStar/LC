@@ -5,7 +5,13 @@
 
 int main() {
     Solution sol;
-    vector<vector<int>> input{{1,0},{0,1}};
+    vector<vector<int>> input{
+            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 1, 1, 1, 0, 0, 0},
+            {0, 1, 1, 1, 0, 0, 0, 1},
+            {0, 1, 1, 0, 0, 0, 0, 1},
+            {0, 0, 0, 0, 0, 0, 0, 1},
+    };
     std::cout << sol.shortestBridge(input) << std::endl;
     return 0;
 }

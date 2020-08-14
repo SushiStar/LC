@@ -26,40 +26,31 @@ public:
       }
       if (origin.first > -1) break;
     }
-    std::vector<ii> border;
-    queue<ii> q;
-    q.push(origin);
-    while (!q.empty()) {
-      auto cur = q.front();
-      q.pop();
-
-      int cnt{0};
+    std::vector<ii> island{origin};
+    int idx{0};
+    while (idx < island.size()) {
+      auto cur = island[idx++];
       if (cur.first > 0 && A[cur.first - 1][cur.second] > 0) {
-        ++cnt;
-        if (A[cur.first - 1][cur.second] == 1)
-          q.push({cur.first - 1, cur.second});
+        A[cur.first - 1][cur.second] = 0;
+        island.emplace_back(cur.first - 1, cur.second);
       }
       if (cur.first < row - 1 && A[cur.first + 1][cur.second] > 0) {
-        ++cnt;
-        if (A[cur.first + 1][cur.second] == 1)
-          q.push({cur.first + 1, cur.second});
+        A[cur.first + 1][cur.second] = 0;
+        island.emplace_back(cur.first + 1, cur.second);
       }
       if (cur.second > 0 && A[cur.first][cur.second - 1] > 0) {
-        ++cnt;
-        if (A[cur.first][cur.second - 1] == 1)
-          q.push({cur.first, cur.second - 1});
+        A[cur.first][cur.second - 1] = 0;
+        island.emplace_back(cur.first, cur.second - 1);
       }
       if (cur.second < col - 1 && A[cur.first][cur.second + 1] > 0) {
-        ++cnt;
-        if (A[cur.first][cur.second + 1] == 1)
-          q.push({cur.first, cur.second + 1});
+        A[cur.first][cur.second + 1] = 0;
+        island.emplace_back(cur.first, cur.second + 1);
       }
-      A[cur.first][cur.second] = 2;
-      if (cnt < 4) border.push_back(cur);
     }
+
     int ret{INT_MAX};
     std::vector<vector<bool>> visited(row, std::vector<bool>(col, false));
-    for (auto &coord : border) {
+    for (auto &coord : island) {
       queue<ii> bfs;
       bfs.push(coord);
       int cnt{1};
@@ -67,30 +58,40 @@ public:
       while (!bfs.empty()) {
         auto cur = bfs.front();
         bfs.pop();
-        if (A[cur.first][cur.second] == 1) break;
         --cnt;
 
-        if (cur.first > 0 && !visited[cur.first - 1][cur.second] &&
-            A[cur.first - 1][cur.second] == 0) {
-          visited[cur.first - 1][cur.second] = true;
-          bfs.push({cur.first - 1, cur.second});
+        if (cur.first > 0 && !visited[cur.first - 1][cur.second]) {
+          if (A[cur.first - 1][cur.second] == 1) {
+            break;
+          } else {
+            visited[cur.first - 1][cur.second] = true;
+            bfs.push({cur.first - 1, cur.second});
+          }
         }
-        if (cur.first < row - 1 && !visited[cur.first + 1][cur.second] &&
-            A[cur.first + 1][cur.second] == 0) {
-          visited[cur.first + 1][cur.second] = true;
-          bfs.push({cur.first + 1, cur.second});
+        if (cur.first < row - 1 && !visited[cur.first + 1][cur.second]) {
+          if (A[cur.first + 1][cur.second] == 1) {
+            break;
+          } else {
+            visited[cur.first + 1][cur.second] = true;
+            bfs.push({cur.first + 1, cur.second});
+          }
         }
-        if (cur.second > 0 && !visited[cur.first][cur.second - 1] &&
-            A[cur.first][cur.second - 1] == 0) {
-          visited[cur.first][cur.second - 1] = true;
-          bfs.push({cur.first, cur.second - 1});
+        if (cur.second > 0 && !visited[cur.first][cur.second - 1]) {
+          if (A[cur.first][cur.second - 1] == 1) {
+            break;
+          } else {
+            visited[cur.first][cur.second - 1] = true;
+            bfs.push({cur.first, cur.second - 1});
+          }
         }
-        if (cur.second < col - 1 && !visited[cur.first][cur.second + 1] &&
-            A[cur.first][cur.second + 1] == 0) {
-          visited[cur.first][cur.second + 1] = true;
-          bfs.push({cur.first, cur.second + 1});
+        if (cur.second < col - 1 && !visited[cur.first][cur.second + 1]) {
+          if (A[cur.first][cur.second + 1] == 1) {
+            break;
+          } else {
+            visited[cur.first][cur.second + 1] = true;
+            bfs.push({cur.first, cur.second + 1});
+          }
         }
-
         if (cnt == 0) {
           cnt = bfs.size();
           ++steps;
@@ -99,6 +100,6 @@ public:
       ret = std::min(ret, steps);
       for (auto &vct : visited) std::fill(vct.begin(), vct.end(), false);
     }
-    return ret - 1;
+    return ret;
   }
 };
