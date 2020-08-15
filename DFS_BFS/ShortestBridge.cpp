@@ -44,8 +44,6 @@ public:
       }
       if (cur.second < col - 1 && A[cur.first][cur.second + 1] > 0) {
         A[cur.first][cur.second + 1] = 0;
-        island.emplace_back(cur.first, cur.second + 1);
-      }
     }
 
     int ret{INT_MAX};
