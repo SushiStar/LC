@@ -10,11 +10,12 @@
  * Date: 04/23/20020
  * Author: Wei Du
  */
+#include "../common.h"
+
 class Solution {
 public:
   bool isOneBitCharacter(vector<int> &bits) {
-    if (bits.size() == 1)
-      return true;
+    if (bits.size() == 1) return true;
     int i = 0;
     for (; i < bits.size() - 1; ++i) {
       if (bits[i] == 0)

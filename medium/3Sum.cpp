@@ -11,39 +11,37 @@
  * Autor: Wei Du
  *
  */
+#include "../common.h"
 
 class Solution {
 public:
-    vector<vector<int>> threeSum(vector<int> &nums) {
-        sort(nums.begin(), nums.end());
-        vector<vector<int>> res{};
+  vector<vector<int>> threeSum(vector<int> &nums) {
+    sort(nums.begin(), nums.end());
+    vector<vector<int>> res{};
 
-        if (nums.size() < 3) return res;
-        for (int i = 0; i < nums.size() - 2; ++i) {
-            int goal = -nums.at(i);
-            int l(i + 1);
-            int r(nums.size() - 1);
-            while (l < r) {
-                if (nums.at(l) + nums.at(r) == goal) {
-                    vector<int> temp{nums.at(i), nums.at(l), nums.at(r)};
-                    res.push_back(temp);
+    if (nums.size() < 3) return res;
+    for (int i = 0; i < nums.size() - 2; ++i) {
+      int goal = -nums.at(i);
+      int l(i + 1);
+      int r(nums.size() - 1);
+      while (l < r) {
+        if (nums.at(l) + nums.at(r) == goal) {
+          vector<int> temp{nums.at(i), nums.at(l), nums.at(r)};
+          res.push_back(temp);
 
-                    while (l < r && temp.at(2) == nums.at(r))
-                        --r;
-                    while (l < r && temp.at(1) == nums.at(l))
-                        ++l;
+          while (l < r && temp.at(2) == nums.at(r)) --r;
+          while (l < r && temp.at(1) == nums.at(l)) ++l;
 
-                } else if (nums.at(l) + nums.at(r) > goal) {
-                    --r;
-                } else { // nums.at(l) + nums.at(r) < goal
-                    ++l;
-                }
-            }
-            // take the first of the repeated number, it has a larger solution
-            // set than later repeated numbers
-            while (i < nums.size() - 2 && nums.at(i) == nums.at(i + 1))
-                ++i;
+        } else if (nums.at(l) + nums.at(r) > goal) {
+          --r;
+        } else { // nums.at(l) + nums.at(r) < goal
+          ++l;
         }
-        return res;
+      }
+      // take the first of the repeated number, it has a larger solution
+      // set than later repeated numbers
+      while (i < nums.size() - 2 && nums.at(i) == nums.at(i + 1)) ++i;
     }
+    return res;
+  }
 };
