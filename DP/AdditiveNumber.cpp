@@ -16,8 +16,6 @@
  */
 #include "../common.h"
 class Solution {
- public:
-   bool isAdditiveNumber(string num) {
-
-   }
+public:
+  bool isAdditiveNumber(string num) {}
 };

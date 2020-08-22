@@ -8,36 +8,37 @@
  *
  * Author: Wei Du
  */
+#include "../common.h"
 
 class Solution {
 public:
-    vector<int> searchRange(vector<int> &nums, int target) {
-        std::vector<int> rlt{-1, -1};
-        if (nums.empty()) return rlt;
+  vector<int> searchRange(vector<int> &nums, int target) {
+    std::vector<int> rlt{-1, -1};
+    if (nums.empty()) return rlt;
 
-        auto indices = findFL(nums, target, 0, nums.size() - 1);
+    auto indices = findFL(nums, target, 0, nums.size() - 1);
 
-        if (indices.first < INT_MAX) {
-            rlt[0] = indices.first;
-            rlt[1] = indices.second;
-        }
-        return res;
+    if (indices.first < INT_MAX) {
+      rlt[0] = indices.first;
+      rlt[1] = indices.second;
     }
+    return rlt;
+  }
 
-    std::pair<int, int> findFL(vector<int> &nums, int target, int left,
-                               int right) {
-        std::pair<int, int> rlt(INT_MAX, INT_MIN);
-        if (nums[rptr] < target || nums[lptr] > target) return rlt;
-        if (lptr == rptr) {
-            rlt.first = lptr;
-            rlt.second = rptr;
-            return std::move(rlt);
-        }
-        int mid = (lptr+rptr) /2;
-        auto r1 = findMaxMin(nums, lptr, mid, target);
-        auto r2 = findMaxMin(nums, mid+1, rptr, target);
-        rlt.first = std::min(r1.first, r2.first);
-        rlt.second = std::max(r1.second, r2.second);
-        return std::move(rlt);
+  std::pair<int, int> findFL(vector<int> &nums, int target, int lptr,
+                             int rptr) {
+    std::pair<int, int> rlt(INT_MAX, INT_MIN);
+    if (nums[rptr] < target || nums[lptr] > target) return rlt;
+    if (lptr == rptr) {
+      rlt.first = lptr;
+      rlt.second = rptr;
+      return std::move(rlt);
     }
+    int mid = (lptr + rptr) / 2;
+    auto r1 = findMaxMin(nums, lptr, mid, target);
+    auto r2 = findMaxMin(nums, mid + 1, rptr, target);
+    rlt.first = std::min(r1.first, r2.first);
+    rlt.second = std::max(r1.second, r2.second);
+    return std::move(rlt);
+  }
 };
