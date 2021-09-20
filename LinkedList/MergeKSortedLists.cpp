@@ -14,6 +14,8 @@
  */
 #include <queue>
 #include <vector>
+
+#include "../common.h"
 using namespace std;
 
 struct ListNode {
