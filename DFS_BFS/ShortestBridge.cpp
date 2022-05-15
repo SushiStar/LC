@@ -100,5 +100,6 @@ public:
             }
             return ret;
         }
+        return 0;
     };
 };
