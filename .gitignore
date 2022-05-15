@@ -3,3 +3,4 @@
 *.ccls-cache
 tags
 cmake-build-debug
+build
