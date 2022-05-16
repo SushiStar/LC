@@ -3,12 +3,34 @@
  * Find the median of the two sorted arrays. The overall run time complexity
  * should be O(log(m+n)). You may assume nums1 and nums2 cannot be both empty.
  *
- * Date: 05/05/2020
+ * Date: 05/15/2022
  * Author: Wei Du
  */
+
 #include <vector>
 using namespace std;
 
+/**
+ * @brief Considering two arrays in general case: v1, v2
+ * The median value must exist and such that v1 v2 are cut into two halfs
+ *
+ *  ---------------------------------
+ *  | | | | |v1[a]|v1[a+1]| | | | | |  v1
+ *  ---------------------------------
+ *
+ *  ----------------------------------
+ *  | | | | |v2[b]|v2[b+1] | | | | | |  v2
+ *  ----------------------------------
+ *
+ * where {v1[0]->v1[a], v2[0]->v2[b]} represent the left half of the whole
+ * partition;
+ *
+ * Then we have v1[a] <= v2[b+1], v2[b] <= v1[a+1]
+ *
+ * you need to use binary search approach to find the a,b positions that
+ * satisfies this condition.
+ *
+ */
 class Solution {
  public:
   double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
