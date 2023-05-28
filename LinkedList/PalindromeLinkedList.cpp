@@ -16,43 +16,43 @@
  * };
  */
 class Solution {
-public:
-    bool isPalindrome(ListNode *head) {
-        if (!head || !head->next) return true;
-        auto head2 = reverseHalf(head);
-        return isPalindrome(head, head2);
-    }
+ public:
+  bool isPalindrome(ListNode *head) {
+    if (!head || !head->next) return true;
+    auto head2 = reverseHalf(head);
+    return isPalindrome(head, head2);
+  }
 
-private:
-    ListNode *reverseHalf(ListNode *head) {
-        auto fast(head);
-        auto slow(head);
-        while (fast) {
-            fast = fast->next;
-            slow = slow->next;
-            if (fast) fast = fast->next;
-        }
-        auto pre(slow);
-        slow = slow->next;
-        pre->next = nullptr;
-        ListNode *nxt(nullptr);
-        while (slow) {
-            nxt = slow->next;
-            slow->next = pre;
-            pre = slow;
-            slow = nxt;
-        }
-        return pre;
+ private:
+  ListNode *reverseHalf(ListNode *head) {
+    auto fast(head);
+    auto slow(head);
+    while (fast) {
+      fast = fast->next;
+      slow = slow->next;
+      if (fast) fast = fast->next;
     }
-    bool isPalindrome(ListNode *head1, ListNode *head2) {
-        while (head1 && head2) {
-            if (head1->val == head2->val) {
-                head1 = head1->next;
-                head2 = head2->next;
-            } else {
-                return false;
-            }
-        }
-        return true;
+    auto pre(slow);
+    slow = slow->next;
+    pre->next = nullptr;
+    ListNode *nxt(nullptr);
+    while (slow) {
+      nxt = slow->next;
+      slow->next = pre;
+      pre = slow;
+      slow = nxt;
     }
+    return pre;
+  }
+  bool isPalindrome(ListNode *head1, ListNode *head2) {
+    while (head1 && head2) {
+      if (head1->val == head2->val) {
+        head1 = head1->next;
+        head2 = head2->next;
+      } else {
+        return false;
+      }
+    }
+    return true;
+  }
 };
